@@ -9,12 +9,12 @@ let redis_tool = require('../bin/redis_tool');
 let session_tool = require('../bin/session_tool');
 let validator_tool = require('../bin/validator_tool');
 let checkInput = validator_tool.checkInput;
-const uname_re = /^(\w{3,63})$/;
+const email_re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 let router = express.Router();
 
 router.get('/', function(req, res) {
-  if (checkInput(req.session.uname, 'string', uname_re)) {
+  if (checkInput(req.session.email, 'string', email_re)) {
     res.render('home');
   }
   else {
@@ -24,10 +24,10 @@ router.get('/', function(req, res) {
 
 router.post('/auth', function(req, res) {
   let pass_re = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9!@#$%^&*/._+-]{8,31})$/;
-  if (checkInput(req.body.username, 'string', uname_re) && checkInput(req.body.password, 'string', pass_re)) {
-    let user = req.body.username + '';
-    user = user.toLowerCase();
-    pg_tool.query('SELECT password, type FROM nv.admin WHERE username=$1', [user], function(error, rows) {
+  if (checkInput(req.body.email, 'string', email_re) && checkInput(req.body.password, 'string', pass_re)) {
+    let email = req.body.email + '';
+    email = email.toLowerCase();
+    pg_tool.query('SELECT password, type FROM nv.admin WHERE email=$1', [email], function(error, rows) {
       if (error) {
         let result = {
           "status": 500,
@@ -37,7 +37,7 @@ router.post('/auth', function(req, res) {
       }
       else {
         if (rows[0] && bcrypt.compareSync(req.body.password, rows[0].password)) {
-          req.session.uname = user;
+          req.session.email = email;
           req.session.type = rows[0].type;
           let result = {
             "status": 200,
@@ -48,7 +48,7 @@ router.post('/auth', function(req, res) {
         else {
           let result = {
             "status": 200,
-            "message": 'Invalid Username/Password'
+            "message": 'Invalid Email/Password'
           };
           res.send(result);
         }
@@ -58,14 +58,14 @@ router.post('/auth', function(req, res) {
   else {
     let result = {
       "status": 400,
-      "message": 'Invalid Username/Password'
+      "message": 'Invalid Email/Password'
     };
     res.send(result);
   }
 });
 
 router.delete('/session', function(req, res) {
-  if (checkInput(req.session.uname, 'string', uname_re)) {
+  if (checkInput(req.session.email, 'string', email_re)) {
     req.session.destroy();
     let result = {
       "status": 200,
