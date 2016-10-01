@@ -9,6 +9,7 @@ let redis_tool = require('./bin/redis_tool');
 let session_tool = require('./bin/session_tool');
 
 let index = require('./routes/index');
+let member = require('./routes/member');
 
 let app = express();
 
@@ -23,6 +24,7 @@ app.use(express.static('./public/javascripts'));
 app.use(session_tool);
 
 app.use('/', index);
+app.use('/member', member);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
