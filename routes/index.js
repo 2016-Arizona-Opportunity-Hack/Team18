@@ -13,7 +13,7 @@ let checkInput = validator_tool.checkInput;
 let router = express.Router();
 
 router.get('/', function(req, res) {
-  res.render('home');
+  res.render('login');
 });
 
 module.exports = router;
