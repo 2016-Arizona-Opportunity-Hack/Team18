@@ -2,30 +2,11 @@
 <head>
   <%- include('header'); %>
   <title>NAMI-VOS</title>
-  <script type="text/javascript" src="javascripts/login.js"></script>
+  <script type="text/javascript" src="javascripts/home.js"></script>
 </head>
-<body onload="setup();">
+<body onload="">
   <div class="container">
-    <div class="container">
-      <div class="row">
-        <image >
-      </div>
-      <div class="row">
-        <h1 class="text-center">Admin Login</h1>
-      </div>
-      <div class="row">
-        <form id="login_form" class="col-xs-12 col-md-4 col-md-offset-4" onSubmit="login();">
-          <div class="form-group">
-            <input type="text" class="form-control" id="loginEmail" name="loginEmail" placeholder="Email" required>
-          </div>
-          <div class="form-group">
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-          </div>
-          <button type="submit" class="btn button-default col-xs-12"><b>GO</b></button>
-          <label class="col-xs-12 wrong-input text-center"><b>Incorrect Admin Email or Password</b></label>
-        </form>
-      </div>
-    </div>
+    Logged In
   </div>
   <%- include('footer'); %>
 </body>
