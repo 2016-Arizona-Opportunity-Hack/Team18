@@ -2,3 +2,21 @@ body {
   background-color: #fcfcfc;
   color: #263238;
 }
+
+
+.navbar-logo{
+  max-height:100px;
+}
+
+
+.hpInfo1-container{
+  background-color:gray;
+}
+
+.hpInfo2-container{
+  background-color:gray;
+}
+
+#account{
+  padding-top:1rem;
+}
