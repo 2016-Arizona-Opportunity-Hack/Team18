@@ -13,3 +13,20 @@ body {
   max-width:30%;
   max-height: 30%;
 }
+
+.navbar-logo{
+  max-height:100px;
+}
+
+
+.hpInfo1-container{
+  background-color:gray;
+}
+
+.hpInfo2-container{
+  background-color:gray;
+}
+
+#account{
+  padding-top:1rem;
+}
