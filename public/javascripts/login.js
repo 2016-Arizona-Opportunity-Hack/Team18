@@ -21,7 +21,7 @@ function login()
       {
         if(response_data.status == 200 && response_data.message == "Successfully Authenticated")
         {
-          window.location.replace(getServer() + '/home');
+          window.location.replace(getServer() + '/');
         }
         else {
           failedLogin(response_data);
@@ -41,8 +41,9 @@ function failedLogin(response_data)
   {
     $("#failed-login").text = "Server issues";
   }
-  else{
-    $("#failed-login").text = "Incorrect email or password";
+  else
+  {
+    $("#failed-login").text("Incorrect email or password");
   }
 
   $("#failed-login").removeClass("hidden");
