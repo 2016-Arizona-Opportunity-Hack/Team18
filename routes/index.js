@@ -31,7 +31,7 @@ router.post('/auth', function(req, res) {
       if (error) {
         let result = {
           "status": 500,
-          "error": 'Server Error'
+          "message": 'Server Error'
         };
         res.send(result);
       }
