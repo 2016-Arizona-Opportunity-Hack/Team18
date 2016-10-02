@@ -27,6 +27,7 @@ var memberUrl = getServer()+'/member';
 
 function GetInterests(member_interest_id)
 {
+  $("#member-modal-table-engagement-interests").empty();
   $.get(memberUrl+'/interests', function(data) {
     if (data.status === 200) {
       var $el = $("#member-modal-table-engagement-interests");
@@ -47,6 +48,7 @@ function GetInterests(member_interest_id)
 
 function GetPreferences(member_preference_id)
 {
+  $("#member-modal-table-communication-preferences").empty();
   $.get(memberUrl+'/preferences', function(data) {
     if (data.status === 200) {
       var $el = $("#member-modal-table-communication-preferences");
