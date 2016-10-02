@@ -14,6 +14,34 @@ const phone_re = /^(\+\d{1,2}){0,1}(\d|-|\(|\)){7,14}$/;
 
 let router = express.Router();
 
+router.get('/all', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    try {
+      pg_tool.query('SELECT * FROM nv.member', [], function(error, rows) {
+        let result = {
+          'status': 200,
+          'members': rows
+        }
+        res.send(result);
+      });
+    }
+    catch (err) {
+      let result = {
+        'status': 500,
+        'message': 'Server Error'
+      };
+      res.send(result);
+    }
+  }
+  else {
+    let result = {
+      'status': 401,
+      'message': 'Unauthorized Request'
+    };
+    res.send(result);
+  }
+});
+
 router.get('/:id', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     if (checkInput(req.params.id, 'number', null)) {

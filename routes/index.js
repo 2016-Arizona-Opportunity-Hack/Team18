@@ -15,7 +15,7 @@ let router = express.Router();
 
 router.get('/', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
-    res.render('donations');
+    res.render('home');
   }
   else {
     res.render('login');

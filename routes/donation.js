@@ -14,6 +14,15 @@ const date_re = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
 
 let router = express.Router();
 
+router.get('/', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    res.render('donations');
+  }
+  else {
+    res.render('login');
+  }
+})
+
 router.get('/:id', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     if (checkInput(req.params.id, 'number', null)) {
