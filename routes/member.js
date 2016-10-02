@@ -156,13 +156,12 @@ router.post('/', function(req, res) {
         }
         let type_id = Number(req.body.type);
         let preference = Number(req.body.preference);
-        let last_contacted = req.body.last_contacted;
+        let last_contacted = req.body.last_contacted + '';
         let interest = Number(req.body.interest);
         let comment = null;
         if (req.body.comment) {
           comment = req.body.comment + '';
         }
-        let params = [first_name,last_name,phone,email,address,company,type,preference,last_contacted,interest,comment];
         knex('nv.member').insert(knex.raw('(first_name,last_name,phone,email,address,company,type_id,communication_preference_id,last_contacted,engagement_interest_id,comment) VALUES (:first_name,:last_name,:phone,:email,:address,:company,:type_id,:communication_preference_id,:last_contacted,:engagement_interest_id,:comment)', {
           first_name: first_name,
           last_name: last_name,
