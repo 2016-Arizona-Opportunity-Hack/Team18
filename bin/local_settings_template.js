@@ -16,7 +16,8 @@ let local_settings = {
   sesh_secret: null, //pick a really long and secure string
   redis_port: null, //usually 6379 for local
   redis_host: null, //localhost for local
-  redis_password: null //usually null for local
+  redis_password: null, //usually null for local
+  captcha_secret: null //get one from Google
 };
 
 module.exports = local_settings;
