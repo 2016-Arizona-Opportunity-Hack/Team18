@@ -74,7 +74,6 @@ function ShowModal(member_info)
 {
   GetPreferences(member_info.communication_preference_id);
   GetInterests(member_info.engagement_interest_id);
-  InitializeModalDatepicker();
 
   if(member_info.first_name === null)
   {
@@ -94,6 +93,18 @@ function ShowModal(member_info)
   {
     $('#member-modal-table-last-contacted').val(member_info.last_contacted.substring(0,10));
   }
+  else
+  {
+    $('#member-modal-table-last-contacted').val(0);
+  }
+  if(!member_info.communication_preference_id)
+  {
+    $('#member-modal-table-communication-preferences').val()
+  }
+  if(!member_info.engagement_interest_id)
+  {
+    $('#member-modal-table-engagement-interests').val(0);
+  }
   $('#member-modal-save-button').removeAttr("onclick");
   $('#member-modal-save-button').attr( "onclick", "SaveMemberModalInfo(" + member_info.id + ");" );
   $('#member-modal').modal({
@@ -104,7 +115,6 @@ function ShowModal(member_info)
 
 function SaveMemberModalInfo(member_id)
 {
-  //Check input fields before continuing
   if(member_id)
   {
     var info = {
