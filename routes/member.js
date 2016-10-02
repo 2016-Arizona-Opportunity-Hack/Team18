@@ -21,6 +21,15 @@ router.get('/', function(req, res) {
   }
 });
 
+router.get('/:id', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    res.send('member works');
+  }
+  else {
+    res.render('login')
+  }
+});
+
 router.post('/', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     if (req.body.first_name && req.body.last_name && req.body.phone && req.body.email && req.body.type && req.body.preference && req.body.interest) {
@@ -144,58 +153,6 @@ router.delete('/', function(req, res) {
       };
       res.send(result);
     }
-  }
-  else {
-    let result = {
-      'status': 401,
-      'message': 'Unauthorized Request'
-    };
-    res.send(result);
-  }
-});
-
-router.get('/donation', function(req, res) {
-  if (checkInput(req.session.email, 'string', email_re)) {
-    res.send('it works');
-  }
-  else {
-    let result = {
-      'status': 401,
-      'message': 'Unauthorized Request'
-    };
-    res.send(result);
-  }
-});
-
-router.post('/donation', function(req, res) {
-  if (checkInput(req.session.email, 'string', email_re)) {
-    res.send('it works');
-  }
-  else {
-    let result = {
-      'status': 401,
-      'message': 'Unauthorized Request'
-    };
-    res.send(result);
-  }
-});
-
-router.put('/donation', function(req, res) {
-  if (checkInput(req.session.email, 'string', email_re)) {
-    res.send('it works');
-  }
-  else {
-    let result = {
-      'status': 401,
-      'message': 'Unauthorized Request'
-    };
-    res.send(result);
-  }
-});
-
-router.delete('/donation', function(req, res) {
-  if (checkInput(req.session.email, 'string', email_re)) {
-    res.send('it works');
   }
   else {
     let result = {
