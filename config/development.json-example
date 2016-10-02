@@ -1,6 +1,6 @@
 {
     "AMQPServer": {
-        "host": "10.143.202.235",
+        "host": "localhost",
         "port": 5672
     },
     "App": {

@@ -1,6 +1,6 @@
 {
     "AMPQServer": {
-        "host": "some-rabbit",
+        "host": "localhost",
         "port": 5672,
         "queue": "test_email_service_queue",
         "exchange": "test_email_service_exchange"

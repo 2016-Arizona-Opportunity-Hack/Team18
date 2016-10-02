@@ -58,5 +58,9 @@ const getDonationResponseHandler = function () {
     return donationResponseHandler;
 };
 
+const getDonationNotificationHandler = function () {
+    return donationNotificationHandler;
+};
+
 module.exports.getDonationResponseHandler = getDonationResponseHandler;
 module.exports.getDonationNotificationHandler = getDonationNotificationHandler;
