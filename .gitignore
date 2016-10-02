@@ -39,3 +39,4 @@ sessions/*
 
 #redis crap
 *dump.rdb
+setup.sql
