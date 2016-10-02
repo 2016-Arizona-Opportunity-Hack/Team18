@@ -19,7 +19,7 @@ function setup()
         for(i = 0; i < response_data.participants.length; i++)
         {
           $("#current-member-table-body").append(
-            "<tr onclick=\"GetParticipantInfo(" + response_data.participants[i].id + ");\"><td>" + response_data.participants[i].first_name + " " + response_data.participants[i].last_name + "</td><td>" + response_data.participants[i].email + "</td><td>" + response_data.participants[i].last_contacted + "</td></tr>"
+            "<tr class=\"no-hover\" onclick=\"GetParticipantInfo(" + response_data.participants[i].id + ");\"><td>" + response_data.participants[i].first_name + " " + response_data.participants[i].last_name + "</td><td>" + response_data.participants[i].email + "</td><td>" + response_data.participants[i].last_contacted.substring(0,10) + "</td></tr>"
           );
         }
       }

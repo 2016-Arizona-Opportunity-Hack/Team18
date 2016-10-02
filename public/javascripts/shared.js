@@ -65,10 +65,16 @@ function GetPreferences(member_preference_id)
   });
 }
 
+function InitializeModalDatepicker() {
+  $("#member-modal-table-last-contacted").datepicker();
+  $("#member-modal-table-last-contacted").datepicker("option", "dateFormat", 'yy-mm-dd');
+}
+
 function ShowModal(member_info)
 {
   GetPreferences(member_info.communication_preference_id);
   GetInterests(member_info.engagement_interest_id);
+  InitializeModalDatepicker();
 
   if(member_info.first_name === null)
   {
@@ -84,7 +90,10 @@ function ShowModal(member_info)
   $('#member-modal-table-phone').val(member_info.phone);
   $('#member-modal-table-address').val(member_info.address);
   $('#member-modal-table-company').val(member_info.company);
-  $('#member-modal-table-last-contacted').val(member_info.last_contacted);
+  if(member_info.last_contacted)
+  {
+    $('#member-modal-table-last-contacted').val(member_info.last_contacted.substring(0,10));
+  }
   $('#member-modal-save-button').removeAttr("onclick");
   $('#member-modal-save-button').attr( "onclick", "SaveMemberModalInfo(" + member_info.id + ");" );
   $('#member-modal').modal({
@@ -95,7 +104,8 @@ function ShowModal(member_info)
 
 function SaveMemberModalInfo(member_id)
 {
-  if(member_id != null)
+  //Check input fields before continuing
+  if(member_id)
   {
     var info = {
       'type': curViewType,
