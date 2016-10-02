@@ -1,0 +1,8 @@
+{
+    "AMQPServer": {
+        "host": "",
+        "port": 0,
+        "queue": "development_app_queue",
+        "exchange": "development_app_exchange"
+    }
+}
