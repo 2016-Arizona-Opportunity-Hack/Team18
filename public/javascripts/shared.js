@@ -6,11 +6,11 @@ function getServer() {
 
 function logout()
 {
+  var logout_url = getServer() + '/session/';
   console.log("here9");
   $.ajax({
     type: "DELETE",
-    url: login_url,
-    data: login_info,
+    url: logout_url,
     success: function(response_data)
     {
       console.log("here82");
