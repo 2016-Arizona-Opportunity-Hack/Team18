@@ -111,11 +111,54 @@ router.post('/', function(req, res) {
 
 router.put('/', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
-    let result = {
-      'status': 501,
-      'message': 'Not Implemented'
-    };
-    res.send(result);
+    if (req.body.id,req.body.amount,req.body.donor,req.body.date,req.body.frequency,req.body.method,req.body.type) {
+      try {
+        let id = Number(req.body.id);
+        let amount = Number(req.body.amount);
+        let donor = Number(req.body.donor);
+        let date = req.body.date + '';
+        let frequency = req.body.frequency;
+        let method = Number(req.body.method);
+        let type = Number(req.body.type);
+        let comment = null;
+        if (req.body.comment) {
+          comment = req.body.comment + '';
+        }
+        let params = [amount,donor,date,frequency,method,type,comment,id];
+        pg_tool.query('UPDATE nv.donation SET amount=$1, donor_id=$2, date=$3, frequency=$4, method_id=$5, type_id=$6, comment=$7 WHERE id=$8', params, function(error, rows) {
+          if (error) {
+            console.log(error);
+            let result = {
+              'status': 500,
+              'message': 'Server Error'
+            };
+            res.send(result);
+          }
+          else {
+            let result = {
+              'status': 200,
+              'message': 'Donation Updated'
+            };
+            res.send(result);
+          }
+        });
+      }
+      catch (err) {
+        console.log(err);
+        let result = {
+          'status': 500,
+          'message': 'Server Error'
+        };
+        res.send(result);
+      }
+    }
+    else {
+      let result = {
+        'status': 400,
+        'message': 'Invalid Parameters'
+      };
+      res.send(result);
+    }
   }
   else {
     let result = {
@@ -127,20 +170,50 @@ router.put('/', function(req, res) {
 });
 
 router.delete('/', function(req, res) {
-  if (checkInput(req.session.email, 'string', email_re)) {
-    let result = {
-      'status': 501,
-      'message': 'Not Implemented'
-    };
-    res.send(result);
+  if (checkInput(req.body.donation_id, 'number', null)) {
+    try {
+      let id = Number(req.body.donation_id);
+      pg_tool.query('DELETE FROM nv.donation WHERE id=$1', [id], function(error, rows) {
+        if (error) {
+          let result = {
+            'status': 500,
+            'message': 'Server Error'
+          };
+          res.send(result);
+        }
+        else {
+          let result = {
+            'status': 200,
+            'message': 'Donation Deleted'
+          };
+          res.send(result);
+        }
+      });
+    }
+    catch (err) {
+      console.log(err);
+      let result = {
+        'status': 500,
+        'message': 'Server Error'
+      };
+      res.send(result);
+    }
   }
   else {
     let result = {
-      'status': 401,
-      'message': 'Unauthorized Request'
+      'status': 400,
+      'message': 'Invalid Parameters'
     };
     res.send(result);
   }
+}
+else {
+  let result = {
+    'status': 401,
+    'message': 'Unauthorized Request'
+  };
+  res.send(result);
+}
 });
 
 module.exports = router;

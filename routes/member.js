@@ -50,15 +50,6 @@ router.get('/:id', function(req, res) {
   }
 });
 
-router.get('/:id', function(req, res) {
-  if (checkInput(req.session.email, 'string', email_re)) {
-    res.send('member works');
-  }
-  else {
-    res.render('login')
-  }
-});
-
 router.post('/', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     if (req.body.first_name && req.body.last_name && req.body.phone && req.body.email && req.body.type && req.body.preference && req.body.interest) {
@@ -129,11 +120,63 @@ router.post('/', function(req, res) {
 
 router.put('/', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
-    let result = {
-      'status': 501,
-      'message': 'Not Implemented'
-    };
-    res.send(result);
+    if (req.body.id && req.body.first_name && req.body.last_name && req.body.phone && req.body.email && req.body.type && req.body.preference && req.body.interest) {
+      try {
+        let id = Number(req.body.id);
+        let first_name = req.body.first_name + '';
+        let last_name = req.body.last_name + '';
+        let phone = req.body.phone + '';
+        let email = req.body.email + '';
+        let address = null;
+        if (req.body.address) {
+          address = req.body.address + '';
+        }
+        let company = null;
+        if (req.body.company) {
+          company = req.body.company + '';
+        }
+        let type = Number(req.body.type);
+        let preference = Number(req.body.preference);
+        let last_contacted = null;
+        let interest = Number(req.body.interest);
+        let comment = null;
+        if (req.body.comment) {
+          comment = req.body.comment + '';
+        }
+        let params = [first_name,last_name,phone,email,address,company,type,preference,last_contacted,interest,comment,id];
+        pg_tool.query('UPDATE nv.member SET first_name=$1, last_name=$2, phone=$3, email=$4, address=$5, company=$6, type_id=$7, communication_preference_id=$8, last_contacted=$9, engagement_interest_id=$10, comment=$11 WHERE id=$12', params, function(error, rows) {
+          if (error) {
+            let result = {
+              'status': 500,
+              'message': 'Server Error'
+            };
+            res.send(result);
+          }
+          else {
+            let result = {
+              'status': 200,
+              'message': 'Member Updated'
+            };
+            res.send(result);
+          }
+        });
+      }
+      catch (err) {
+        console.log(err);
+        let result = {
+          'status': 500,
+          'message': 'Server Error'
+        };
+        res.send(result);
+      }
+    }
+    else {
+      let result = {
+        'status': 400,
+        'message': 'Invalid Parameters'
+      };
+      res.send(result);
+    }
   }
   else {
     let result = {
