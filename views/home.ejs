@@ -4,11 +4,128 @@
   <%- include('header'); %>
   <title>NAMI-VOS | Home</title>
   <script type="text/javascript" src="javascripts/home.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 </head>
 <%- include('navbar'); %>
 <body>
-  <div class="container">
+  <div class = "container content-container">
+    <div class = "row">
+      <div class = "col-md-1"></div>
+      <div class = "center-container col-md-10">
+        <div class = "graphs row">
+          <div class = "col-md-4">
+            <div id = "graphMoney">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3>Donation Trends</h3>
+                  <h5>(Who is Donating for Quarter)</h5>
+                </div>
+                <div class="panel-body">
+                  <canvas id="donateTrend-graph" width="220" height="220"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class = "col-md-4">
+            <div id = "graphMembers">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3>Member Trends</h3>
+                  <h5>(New Members for Quarter)</h5>
+                </div>
+                <div class="panel-body">
+                  <canvas id="partTrend-graph" width="220" height="220"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <div class = "col-md-4">
+            <div id = "servicePopularity">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3>Service Popularity</h3>
+                  <h5>(Service Attendies for Quarter)</h5>
+                </div>
+                <div class="panel-body">
+                  <canvas id="serviceTrend-graph" width="220" height="220"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class = "row">
+            <div class = "col-md-2"> </div>
+            <div class = "col-md-8">
+              <div class="panel panel-primary">
+                <div class="panel-heading text-center"><i class="fa fa-trophy fa-4x" aria-hidden="true"></i><h3>Top 10 Donors</h3></div>
+                <div class="panel-body">
+                  <table class = "top10-tbl">
+                    <tr>
+                      <th>Firstname</th>
+                      <th>Lastname</th>
+                      <th>Total Amount</th>
+                    </tr>
+                  <br>
+                    <tr>
+                      <td>Jill</td>
+                      <td>Smith</td>
+                      <td>$12,000</td>
+                    </tr>
+                    <tr>
+                      <td>Joe</td>
+                      <td>Lone</td>
+                      <td>$10,000</td>
+                    </tr>
+                    <tr>
+                      <td>Robert</td>
+                      <td>Dillian</td>
+                      <td>$9,829</td>
+                    </tr>
+                    <tr>
+                      <td>Jill</td>
+                      <td>Cline</td>
+                      <td>$7,321</td>
+                    </tr>
+                    <tr>
+                      <td>Kristine</td>
+                      <td>Smit</td>
+                      <td>$7,000</td>
+                    </tr>
+                    <tr>
+                      <td>Adaline</td>
+                      <td>Mei</td>
+                      <td>$1,283</td>
+                    </tr>
+                    <tr>
+                      <td>Bob</td>
+                      <td>Francis</td>
+                      <td>$1,100</td>
+                    </tr>
+                    <tr>
+                      <td>Freddy</td>
+                      <td>Miller</td>
+                      <td>$1000</td>
+                    </tr>
+                    <tr>
+                      <td>Frank</td>
+                      <td>Banallli</td>
+                      <td>$123</td>
+                    </tr>
+                    <tr>
+                      <td>Kacie</td>
+                      <td>Wheel</td>
+                      <td>$100</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class = "col-md-2"></div>
+          </div>
+        </div>
+      </div>
+      <div class = "col-md-1"></div>
+    </div>
   </div>
 </body>
 <%- include('footer'); %>

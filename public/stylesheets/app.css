@@ -4,6 +4,29 @@ body {
   color: #263238;
 }
 
+.top10-tbl{
+  width:100%;
+  margin-bottom: 2rem;
+}
+
+.content-container{
+  padding-top:10rem;
+  min-width: 72rem;
+  min-height: 72rem;
+  max-width: 100rem;
+  max-height:162rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.panel-heading {
+     background-color: #002749 !important;
+}
+
+.panel{
+  border:0;
+}
+
 .basic-coloring {
   color:#002749;
 }
