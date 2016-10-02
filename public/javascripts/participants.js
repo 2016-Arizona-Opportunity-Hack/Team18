@@ -1,4 +1,5 @@
 'use strict';
+var curViewType = 2;
 
 function setup()
 {
