@@ -25,7 +25,7 @@ router.get('/', function(req, res) {
 router.get('/all', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     try {
-      pg_tool.query('SELECT * FROM nv.member WHERE type_id=1', [], function(error, rows) {
+      pg_tool.query('SELECT * FROM nv.member WHERE type_id=2', [], function(error, rows) {
         if (error) {
           let result = {
             'status': 500,
@@ -36,7 +36,8 @@ router.get('/all', function(req, res) {
         else {
           let result = {
             'status': 200,
-            'participants': rows
+            'participants': rows,
+            'message': 'Successfully accessed participants\' data'
           }
           res.send(result);
         }
