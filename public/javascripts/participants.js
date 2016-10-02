@@ -17,7 +17,7 @@ function setup()
         var i;
         for(i = 0; i < response_data.participants.length; i++)
         {
-          $("#participants-table-body").append(
+          $("#current-member-table-body").append(
             "<tr onclick=\"GetParticipantInfo(" + response_data.participants[i].id + ");\"><td>" + response_data.participants[i].name + "</td><td>" + response_data.participants[i].email + "</td><td>" + response_data.participants[i].last_contacted + "</td></tr>"
           );
         }
