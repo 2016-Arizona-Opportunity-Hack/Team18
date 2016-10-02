@@ -4,13 +4,16 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
-let pg_tool = require('./bin/pg_tool');
 let redis_tool = require('./bin/redis_tool');
 let session_tool = require('./bin/session_tool');
+
+require('./bin/knex_tool').start();
 
 let index = require('./routes/index');
 let member = require('./routes/member');
 let donation = require('./routes/donation');
+let participants = require('./routes/participants');
+let register = require('./routes/register');
 
 let app = express();
 
@@ -27,6 +30,8 @@ app.use(session_tool);
 app.use('/', index);
 app.use('/member', member);
 app.use('/donation', donation);
+app.use('/participants', participants);
+app.use('/register', register);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

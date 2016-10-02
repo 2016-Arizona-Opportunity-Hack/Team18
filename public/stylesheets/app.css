@@ -1,9 +1,7 @@
 body {
+  margin-top: 6rem;
   background-color: #fcfcfc;
   color: #263238;
-}
-
-.graphs{
 }
 
 .top10-tbl{
@@ -63,6 +61,13 @@ body {
   max-height: 30%;
 }
 
+.row {
+    padding:1rem;
+}
+
+.block-label {
+  display: block;
+
 #login-button{
   color:#002749;
   background-color: #FFFFFF;
@@ -74,16 +79,12 @@ body {
   background-color: #002749;
 }
 
-
-
 .btn:focus,.btn:active,.form-control:focus,.form-control:active {
    outline: none !important;
    border-color: #cccccc;
   -webkit-box-shadow: none;
    box-shadow: none;
 }
-
-
 
 .pointer{
   cursor:pointer;
@@ -146,4 +147,15 @@ body {
     color: #FFFFFF;
     background-color: #002749;
   }
+}
+
+.table tbody tr > td {
+  color: #002749 !important;
+  cursor: pointer;
+}
+
+.table-hover tbody tr:hover > td {
+  color: #FFFFFF !important;
+  background-color: #002749 !important;
+  cursor: pointer;
 }

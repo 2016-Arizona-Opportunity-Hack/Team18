@@ -17,6 +17,7 @@ let redis_port;
 let redis_host;
 let redis_password;
 
+let captcha_secret;
 
 if (process.env.im_live) {
   console.log('loading prod settings..');
@@ -33,6 +34,7 @@ if (process.env.im_live) {
   redis_port = process.env.redis_port;
   redis_host = process.env.redis_host;
   redis_password = process.env.redis_password;
+  captcha_secret = process.env.captcha_secret;
 }
 else {
   console.log('loading local settings..');
@@ -50,6 +52,7 @@ else {
   redis_port = local_settings.redis_port;
   redis_host = local_settings.redis_host;
   redis_password = local_settings.redis_password;
+  captcha_secret = local_settings.captcha_secret;
 }
 
 let db_config = {
@@ -73,7 +76,7 @@ let session_config = {
 };
 
 let api_settings = {
-  //api keys and what not go here//s
+  captcha_key: captcha_secret
 };
 
 let redis_config = {

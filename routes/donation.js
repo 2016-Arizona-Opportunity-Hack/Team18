@@ -2,7 +2,7 @@
 
 let app = require('../app');
 let express = require('express');
-let pg_tool = require('../bin/pg_tool');
+let knex = require('../bin/knex_tool').getKnex();
 let aes_tool = require('../bin/aes_tool');
 let redis_tool = require('../bin/redis_tool');
 let session_tool = require('../bin/session_tool');
@@ -10,20 +10,117 @@ let validator_tool = require('../bin/validator_tool');
 let checkInput = validator_tool.checkInput;
 const email_re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const name_re = /^(\w{3,63})$/;
-const date_re = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+const date_re = /^\d{4}-\d{2}-\d{2}$/;
 
 let router = express.Router();
+
+router.get('/', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    res.render('donations', { name: req.session.name });
+  }
+  else {
+    res.render('login');
+  }
+});
+
+
+router.get('/donors', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    try {
+      knex('nv.member').where(knex.raw(
+        'type_id = :type_id',
+        { 'type_id': 2 }
+      )).asCallback((error, rows) => {
+        let result = {
+          'status': 200,
+          'donors': rows
+        }
+        res.send(result);
+      });
+    }
+    catch (err) {
+      let result = {
+        'status': 500,
+        'message': 'Server Error'
+      };
+      res.send(result);
+    }
+  }
+  else {
+    let result = {
+      'status': 401,
+      'message': 'Unauthorized Request'
+    };
+    res.send(result);
+  }
+});
+
+router.get('/types', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    try {
+      knex('nv.donation_type').select('id, name').asCallback((error, rows) => {
+        let result = {
+          'status': 200,
+          'types': rows
+        };
+        res.send(result);
+      });
+    }
+    catch (err) {
+      let result = {
+        'status': 500,
+        'message': 'Server Error'
+      };
+      res.send(result);
+    }
+  }
+  else {
+    let result = {
+      'status': 401,
+      'message': 'Unauthorized Request'
+    };
+    res.send(result);
+  }
+});
+
+router.get('/methods', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    try {
+      knex('nv.donation_method').select('id, name').asCallback((error, rows) => {
+        let result = {
+          'status': 200,
+          'methods': rows
+        };
+        res.send(result);
+      });
+    }
+    catch (err) {
+      let result = {
+        'status': 500,
+        'message': 'Server Error'
+      };
+      res.send(result);
+    }
+  }
+  else {
+    let result = {
+      'status': 401,
+      'message': 'Unauthorized Request'
+    };
+    res.send(result);
+  }
+});
 
 router.get('/:id', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     if (checkInput(req.params.id, 'number', null)) {
       try {
         let id = Number(req.params.id);
-        pg_tool.query('SELECT * FROM nv.donation WHERE id=$1', [id], function(error, rows) {
+        knex('nv.donation').where(knex.raw('id = :id', {id: id})).asCallback((error, rows) => {
           let result = {
             'status': 200,
-            'donation': rows[0]
-          }
+            'donation': rows
+          };
           res.send(result);
         });
       }
@@ -67,22 +164,30 @@ router.post('/', function(req, res) {
           comment = req.body.comment + '';
         }
         let params = [amount,donor,date,frequency,method,type,comment];
-        pg_tool.query('INSERT INTO nv.donation(amount,donor_id,date,frequency,method_id,type_id,comment) VALUES ($1, $2, $3, $4, $5, $6, $7)', params, function(error, rows) {
-          if (error) {
-            console.log(error);
-            let result = {
-              'status': 500,
-              'message': 'Server Error'
-            };
-            res.send(result);
-          }
-          else {
-            let result = {
-              'status': 201,
-              'message': 'Donation Created'
-            };
-            res.send(result);
-          }
+        knex('nv.donation').insert(knex.raw('(amount,donor_id,date,frequency,method_id,type_id,comment) VALUES' +
+            '(:amount,:donor_id,:date,:frequency,:method_id,:type_id,:comment)', {
+            amount: amount,
+            donor_id: donor_id,
+            frequency: frequency,
+            method_id: method_id,
+            type_id: type_id,
+            comment: comment
+          })).asCallback((error, rows) => {
+            if (error) {
+              console.log(error);
+              let result = {
+                'status': 500,
+                'message': 'Server Error'
+              };
+              res.send(result);
+            }
+            else {
+              let result = {
+                'status': 201,
+                'message': 'Donation Created'
+              };
+              res.send(result);
+            }
         });
       }
       catch (err) {
@@ -126,23 +231,31 @@ router.put('/', function(req, res) {
         if (req.body.comment) {
           comment = req.body.comment + '';
         }
-        let params = [amount,donor,date,frequency,method,type,comment,id];
-        pg_tool.query('UPDATE nv.donation SET amount=$1, donor_id=$2, date=$3, frequency=$4, method_id=$5, type_id=$6, comment=$7 WHERE id=$8', params, function(error, rows) {
-          if (error) {
-            console.log(error);
-            let result = {
-              'status': 500,
-              'message': 'Server Error'
-            };
-            res.send(result);
-          }
-          else {
-            let result = {
-              'status': 200,
-              'message': 'Donation Updated'
-            };
-            res.send(result);
-          }
+
+        knex('nv.donation').update(knex.raw('(amount,donor_id,date,frequency,method_id,type_id,comment) VALUES' +
+            '(:amount,:donor_id,:date,:frequency,:method_id,:type_id,:comment)', {
+            amount: amount,
+            donor_id: donor_id,
+            frequency: frequency,
+            method_id: method_id,
+            type_id: type_id,
+            comment: comment
+          })).where(knex.raw('?? = ?', ['id', id])).asCallback((error, rows) => {
+            if (error) {
+              console.log(error);
+              let result = {
+                'status': 500,
+                'message': 'Server Error'
+              };
+              res.send(result);
+            }
+            else {
+              let result = {
+                'status': 200,
+                'message': 'Donation Updated'
+              };
+              res.send(result);
+            }
         });
       }
       catch (err) {
@@ -176,7 +289,7 @@ router.delete('/', function(req, res) {
     if (checkInput(req.body.donation_id, 'number', null)) {
       try {
         let id = Number(req.body.donation_id);
-        pg_tool.query('DELETE FROM nv.donation WHERE id=$1', [id], function(error, rows) {
+        knex('nv.donation').delete().where(knex.raw('id = :id', {id: id})).asCallback((error, rows) => {
           if (error) {
             let result = {
               'status': 500,
