@@ -51,6 +51,62 @@ router.get('/donors', function(req, res) {
   }
 });
 
+router.get('/types', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    try {
+      pg_tool.query('SELECT id, name FROM nv.donation_type', [], function(error, rows) {
+        let result = {
+          'status': 200,
+          'types': rows
+        }
+        res.send(result);
+      });
+    }
+    catch (err) {
+      let result = {
+        'status': 500,
+        'message': 'Server Error'
+      };
+      res.send(result);
+    }
+  }
+  else {
+    let result = {
+      'status': 401,
+      'message': 'Unauthorized Request'
+    };
+    res.send(result);
+  }
+});
+
+router.get('/methods', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    try {
+      pg_tool.query('SELECT id, name FROM nv.donation_method', [], function(error, rows) {
+        let result = {
+          'status': 200,
+          'methods': rows
+        }
+        res.send(result);
+      });
+    }
+    catch (err) {
+      let result = {
+        'status': 500,
+        'message': 'Server Error'
+      };
+      res.send(result);
+    }
+  }
+  else {
+    let result = {
+      'status': 401,
+      'message': 'Unauthorized Request'
+    };
+    res.send(result);
+  }
+});
+
 router.get('/:id', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     if (checkInput(req.params.id, 'number', null)) {
