@@ -1,6 +1,15 @@
 'use strict'
 const email_re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+function setup() {
+  $(document).keypress(function(e){
+    console.log(e)
+    if (e.which == 13){
+        $("#login-button").click();
+    }
+  });
+};
+
 function login()
 {
   var email = $("#email").val();

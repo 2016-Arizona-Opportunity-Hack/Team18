@@ -23,6 +23,7 @@ pg_tool.query = function(querystring, params, callback) {
         client.query(querystring, params, function(err, result) {
           done();
           if (err) {
+            console.log('error querying to database: ', err)
             error = 'error querying database',
             callback(error, rows);
           }
