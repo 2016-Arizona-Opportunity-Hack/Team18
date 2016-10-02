@@ -10,9 +10,102 @@ let validator_tool = require('../bin/validator_tool');
 let checkInput = validator_tool.checkInput;
 const email_re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const name_re = /^(\w{3,63})$/;
-const date_re = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+const date_re = /^\d{4}-\d{2}-\d{2}$/;
 
 let router = express.Router();
+
+router.get('/', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    res.render('donations');
+  }
+  else {
+    res.render('login');
+  }
+});
+
+router.get('/donors', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    try {
+      pg_tool.query('SELECT * FROM nv.member WHERE type_id=2', [], function(error, rows) {
+        let result = {
+          'status': 200,
+          'donors': rows
+        }
+        res.send(result);
+      });
+    }
+    catch (err) {
+      let result = {
+        'status': 500,
+        'message': 'Server Error'
+      };
+      res.send(result);
+    }
+  }
+  else {
+    let result = {
+      'status': 401,
+      'message': 'Unauthorized Request'
+    };
+    res.send(result);
+  }
+});
+
+router.get('/types', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    try {
+      pg_tool.query('SELECT id, name FROM nv.donation_type', [], function(error, rows) {
+        let result = {
+          'status': 200,
+          'types': rows
+        }
+        res.send(result);
+      });
+    }
+    catch (err) {
+      let result = {
+        'status': 500,
+        'message': 'Server Error'
+      };
+      res.send(result);
+    }
+  }
+  else {
+    let result = {
+      'status': 401,
+      'message': 'Unauthorized Request'
+    };
+    res.send(result);
+  }
+});
+
+router.get('/methods', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    try {
+      pg_tool.query('SELECT id, name FROM nv.donation_method', [], function(error, rows) {
+        let result = {
+          'status': 200,
+          'methods': rows
+        }
+        res.send(result);
+      });
+    }
+    catch (err) {
+      let result = {
+        'status': 500,
+        'message': 'Server Error'
+      };
+      res.send(result);
+    }
+  }
+  else {
+    let result = {
+      'status': 401,
+      'message': 'Unauthorized Request'
+    };
+    res.send(result);
+  }
+});
 
 router.get('/:id', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
