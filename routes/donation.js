@@ -16,6 +16,23 @@ const date_re = /^\d{4}-\d{2}-\d{2}$/;
 
 let router = express.Router();
 
+function sendMessages(donor_id, amount, date) {
+  try {
+    knex('nv.member').where(knex.raw(
+      'id = :donor_id',
+      { 'donor_id': donor_id }
+    )).asCallback((error, rows) => {
+      let donor = rows[0];
+      console.log(donor);
+      //call email service//
+    });
+  }
+  catch (err) {
+    console.log("ERROR SENDING MESSAGES: ");
+    console.log(err);
+  }
+}
+
 router.get('/', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     res.render('donations', { name: req.session.name });
@@ -24,7 +41,6 @@ router.get('/', function(req, res) {
     res.render('login');
   }
 });
-
 
 router.get('/donors', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
@@ -60,7 +76,8 @@ router.get('/donors', function(req, res) {
 router.get('/types', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     try {
-      knex('nv.donation_type').select('id, name').asCallback((error, rows) => {
+      knex('nv.donation_type').select(['id', 'name']).asCallback((error, rows) => {
+        console.log(error)
         let result = {
           'status': 200,
           'types': rows
@@ -88,7 +105,7 @@ router.get('/types', function(req, res) {
 router.get('/methods', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     try {
-      knex('nv.donation_method').select('id, name').asCallback((error, rows) => {
+      knex('nv.donation_method').select(['id', 'name']).asCallback((error, rows) => {
         let result = {
           'status': 200,
           'methods': rows
@@ -156,20 +173,19 @@ router.post('/', function(req, res) {
     if (checkInput(req.body.amount,'number',null) && checkInput(req.body.donor,'number',null) && checkInput(req.body.date,'string',date_re) && checkInput(req.body.frequency,'string',name_re) && checkInput(req.body.method,'number',null) && checkInput(req.body.type,'number',null)) {
       try {
         let amount = Number(req.body.amount);
-        let donor = Number(req.body.donor);
+        let donor_id = Number(req.body.donor);
         let date = req.body.date + '';
         let frequency = req.body.frequency;
-        let method = Number(req.body.method);
-        let type = Number(req.body.type);
+        let method_id = Number(req.body.method);
+        let type_id = Number(req.body.type);
         let comment = null;
         if (req.body.comment) {
           comment = req.body.comment + '';
         }
-        let params = [amount,donor,date,frequency,method,type,comment];
-        knex('nv.donation').insert(knex.raw('(amount,donor_id,date,frequency,method_id,type_id,comment) VALUES' +
-            '(:amount,:donor_id,:date,:frequency,:method_id,:type_id,:comment)', {
+        knex('nv.donation').insert(knex.raw('(amount,donor_id,date,frequency,method_id,type_id,comment) VALUES (:amount,:donor_id,:date,:frequency,:method_id,:type_id,:comment)', {
             amount: amount,
             donor_id: donor_id,
+            date: date,
             frequency: frequency,
             method_id: method_id,
             type_id: type_id,
@@ -184,6 +200,7 @@ router.post('/', function(req, res) {
               res.send(result);
             }
             else {
+              sendMessages(donor_id, amount, date);
               let result = {
                 'status': 201,
                 'message': 'Donation Created'
@@ -233,16 +250,14 @@ router.put('/', function(req, res) {
         if (req.body.comment) {
           comment = req.body.comment + '';
         }
-
-        knex('nv.donation').update(knex.raw('(amount,donor_id,date,frequency,method_id,type_id,comment) VALUES' +
-            '(:amount,:donor_id,:date,:frequency,:method_id,:type_id,:comment)', {
+        knex('nv.donation').where('id',id).update({
             amount: amount,
             donor_id: donor_id,
             frequency: frequency,
             method_id: method_id,
             type_id: type_id,
             comment: comment
-          })).where(knex.raw('?? = ?', ['id', id])).asCallback((error, rows) => {
+          }).where(knex.raw('?? = ?', ['id', id])).asCallback((error, rows) => {
             if (error) {
               console.log(error);
               let result = {

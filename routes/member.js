@@ -154,15 +154,14 @@ router.post('/', function(req, res) {
         if (req.body.company) {
           company = req.body.company + '';
         }
-        let type = Number(req.body.type);
+        let type_id = Number(req.body.type);
         let preference = Number(req.body.preference);
-        let last_contacted = null;
+        let last_contacted = req.body.last_contacted + '';
         let interest = Number(req.body.interest);
         let comment = null;
         if (req.body.comment) {
           comment = req.body.comment + '';
         }
-        let params = [first_name,last_name,phone,email,address,company,type,preference,last_contacted,interest,comment];
         knex('nv.member').insert(knex.raw('(first_name,last_name,phone,email,address,company,type_id,communication_preference_id,last_contacted,engagement_interest_id,comment) VALUES (:first_name,:last_name,:phone,:email,:address,:company,:type_id,:communication_preference_id,:last_contacted,:engagement_interest_id,:comment)', {
           first_name: first_name,
           last_name: last_name,
@@ -170,7 +169,7 @@ router.post('/', function(req, res) {
           email: email,
           address: address,
           company: company,
-          type_id: type,
+          type_id: type_id,
           communication_preference_id: preference,
           last_contacted: last_contacted,
           engagement_interest_id: interest,
@@ -237,14 +236,14 @@ router.put('/', function(req, res) {
         }
         let type = Number(req.body.type);
         let preference = Number(req.body.preference);
-        let last_contacted = null;
+        let last_contacted = req.body.last_contacted;
         let interest = Number(req.body.interest);
         let comment = null;
         if (req.body.comment) {
           comment = req.body.comment + '';
         }
-        let params = [first_name,last_name,phone,email,address,company,type,preference,last_contacted,interest,comment,id];
-        knex('nv.member').insert(knex.raw('(first_name,last_name,phone,email,address,company,type_id,communication_preference_id,last_contacted,engagement_interest_id,comment) VALUES (:first_name,:last_name,:phone,:email,:address,:company,:type_id,:communication_preference_id,:last_contacted,:engagement_interest_id,:comment)', {          first_name: first_name,
+        knex('nv.member').where('id',id).update({
+          first_name: first_name,
           last_name: last_name,
           phone: phone,
           email: email,
@@ -255,7 +254,7 @@ router.put('/', function(req, res) {
           last_contacted: last_contacted,
           engagement_interest_id: interest,
           comment: comment
-        })).asCallback((error, rows) => {
+        }).asCallback((error, rows) => {
           if (error) {
             let result = {
               'status': 500,

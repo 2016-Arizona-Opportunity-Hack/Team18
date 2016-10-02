@@ -27,6 +27,7 @@ var memberUrl = getServer()+'/member';
 
 function GetInterests(member_interest_id)
 {
+  $("#member-modal-table-engagement-interests").empty();
   $.get(memberUrl+'/interests', function(data) {
     if (data.status === 200) {
       var $el = $("#member-modal-table-engagement-interests");
@@ -47,6 +48,7 @@ function GetInterests(member_interest_id)
 
 function GetPreferences(member_preference_id)
 {
+  $("#member-modal-table-communication-preferences").empty();
   $.get(memberUrl+'/preferences', function(data) {
     if (data.status === 200) {
       var $el = $("#member-modal-table-communication-preferences");
@@ -65,14 +67,21 @@ function GetPreferences(member_preference_id)
   });
 }
 
+function InitializeModalDatepicker() {
+  $("#member-modal-table-last-contacted").datepicker();
+  $("#member-modal-table-last-contacted").datepicker("option", "dateFormat", 'yy-mm-dd');
+}
+
 function ShowModal(member_info)
 {
   GetPreferences(member_info.communication_preference_id);
   GetInterests(member_info.engagement_interest_id);
+  InitializeModalDatepicker();
 
-  if(member_info.first_name === null)
+  if(!member_info.first_name)
   {
-    $('#member-modal-title').html("New Information");
+    if(curViewType === 2)
+      $('#member-modal-title').html("New Participant");
   }
   else
   {
@@ -84,7 +93,22 @@ function ShowModal(member_info)
   $('#member-modal-table-phone').val(member_info.phone);
   $('#member-modal-table-address').val(member_info.address);
   $('#member-modal-table-company').val(member_info.company);
-  $('#member-modal-table-last-contacted').val(member_info.last_contacted);
+  if(member_info.last_contacted)
+  {
+    $('#member-modal-table-last-contacted').val(member_info.last_contacted.substring(0,10));
+  }
+  else
+  {
+    $('#member-modal-table-last-contacted').val('');
+  }
+  if(!member_info.communication_preference_id)
+  {
+    $('#member-modal-table-communication-preferences').val(0)
+  }
+  if(!member_info.engagement_interest_id)
+  {
+    $('#member-modal-table-engagement-interests').val(0);
+  }
   $('#member-modal-save-button').removeAttr("onclick");
   $('#member-modal-save-button').attr( "onclick", "SaveMemberModalInfo(" + member_info.id + ");" );
   $('#member-modal').modal({
@@ -95,7 +119,7 @@ function ShowModal(member_info)
 
 function SaveMemberModalInfo(member_id)
 {
-  if(member_id != null)
+  if(member_id)
   {
     var info = {
       'type': curViewType,
@@ -121,6 +145,7 @@ function SaveMemberModalInfo(member_id)
       {
         if(response_data.status === 200)
         {
+          $('#member-modal').modal('hide');
           //Repopulate table
           RepopulateCurrentMemberTable();
         }
@@ -142,27 +167,33 @@ function SaveMemberModalInfo(member_id)
   }
   else
   {
+    var memberUrl = getServer() + "/member/";
     var info = {
       'type': curViewType,
-      'first_name': $('#member-modal-table-first-name').html,
-      'last_name': $('#member-modal-table-last-name').html,
-      'phone': $('#member-modal-table-phone').html,
-      'email': $('#member-modal-table-email').html,
-      'address': $('#member-modal-table-address').html,
-      'company': $('#member-modal-table-company').html,
-      'last_contacted': $('#member-modal-table-last-contacted').html,
-      'interest': $('#member-modal-table-interest').html,
-      'preference': $('#member-modal-table-preference').html
+      'first_name': $('#member-modal-table-first-name').val(),
+      'last_name': $('#member-modal-table-last-name').val(),
+      'phone': $('#member-modal-table-phone').val(),
+      'email': $('#member-modal-table-email').val(),
+      'address': $('#member-modal-table-address').val(),
+      'company': $('#member-modal-table-company').val(),
+      'last_contacted': $('#member-modal-table-last-contacted').val(),
+      'interest': $('#member-modal-table-engagement-interests').val(),
+      'preference': $('#member-modal-table-communication-preferences').val()
     }
+
+
+    console.log(info);
 
     $.ajax({
       type: "POST",
-      url: getServer() + "/member/",
+      url: memberUrl,
       data: info,
       success: function(response_data)
       {
-        if(response_data.status === 200 && response_data.message === 'Successfully accessed participant data' && response_data.member.id === member_id)
+        if(response_data.status === 201)
         {
+          $('#member-modal').modal('hide');
+
           //Repopulate table
           RepopulateCurrentMemberTable();
         }

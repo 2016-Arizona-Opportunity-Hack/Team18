@@ -44,14 +44,15 @@ body {
 
 .block-label {
   display: block;
+}
 
-#login-button{
+#login-button, #register-btn {
   color:#002749;
   background-color: #FFFFFF;
   border-color: #002749;
 }
 
-#login-button:hover{
+#login-button:hover, #register-btn:hover {
   color:#FFFFFF;
   background-color: #002749;
 }
@@ -126,9 +127,6 @@ body {
   }
 }
 
-
-
-
 .table tbody tr > td {
   color: #002749 !important;
   cursor: pointer;
@@ -138,4 +136,17 @@ body {
   color: #FFFFFF !important;
   background-color: #002749 !important;
   cursor: pointer;
+}
+
+.no-hover
+{
+  cursor: default;
+}
+
+.push-down-a-bit {
+  margin-top: 7rem;
+}
+
+#error-msg {
+  color: red;
 }
