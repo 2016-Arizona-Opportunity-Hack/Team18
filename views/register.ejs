@@ -5,8 +5,6 @@
     <title>NAMI-VOS| Register</title>
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <link rel="stylesheet" href="stylesheets/bootstrap-select.min.css">
-    <link rel="stylesheet" href="stylesheets/jquery-ui.css">
-    <script type="text/javascript" src="javascripts/jquery-ui.js"></script>
     <script type="text/javascript" src="javascripts/bootstrap-select.min.js"></script>
     <script type="text/javascript" src="javascripts/register.js"></script>
   </head>
@@ -21,13 +19,44 @@
             <div class="panel-body">
               <div>
                 <div class="row">
-                  
+                  <div class="row">
+                    <div class="col-md-6 col-xs-12">
+                      <label for="first_name">First Name:</label>
+                      <input class="form-control" type="text" maxlength="63" name="first_name" id="first_name" required/>
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                      <label for="first_name">Last Name:</label>
+                      <input class="form-control" type="text" maxlength="63" name="last_name" id="last_name" required/>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 col-xs-12">
+                      <label for="phone">Phone:</label>
+                      <input class="form-control" type="text" maxlength="14" name="phone" id="phone" required/>
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                      <label for="email">Email:</label>
+                      <input class="form-control" type="text" maxlength="127" name="email" id="email" required/>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <label for="address">Address:</label>
+                      <input class="form-control" type="text" maxlength="255" name="address" id="address" required/>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                      <label for="company">Company:</label>
+                      <input class="form-control" type="text" maxlength="255" name="company" id="company" required/>
+                    </div>
+                  </div>
                 </div>
                 <div class="g-recaptcha" data-sitekey="6LeFMQgUAAAAAEbf17SKD77cfszpHVh1uh_FTbZP"></div>
                 <div class = "row"
                   <div class="col-xs-12">
                     <div class ="text-right" >
-                      <button type="button" class="btn btn-primary" onclick="register();" id="register-btn">Submit</button>
+                      <button type="button" class="btn btn-primary" onclick="register();" id="register-btn">Register</button>
                     </div>
                   </div
                 </div>
