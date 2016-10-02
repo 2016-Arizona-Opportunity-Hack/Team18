@@ -23,7 +23,6 @@ function sendMessages(donor_id, amount, date) {
       { 'donor_id': donor_id }
     )).asCallback((error, rows) => {
       let donor = rows[0];
-      console.log(donor);
       //call email service//
     });
   }

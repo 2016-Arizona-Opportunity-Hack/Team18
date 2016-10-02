@@ -42,7 +42,7 @@ function register() {
   var interest = $('#interest').val();
   var captcha = $('#g-recaptcha-response').val();
   if (first_name && last_name && (phone || email) && preference && interest && captcha) {
-    var register_url = getServer()+'/';
+    var register_url = baseUrl;
     var registration_data = {
       'first_name': first_name,
       'last_name': last_name,
@@ -60,7 +60,13 @@ function register() {
       url: register_url,
       data: registration_data,
       success: function(result) {
-        console.log(result);
+        if (result.status === 201) {
+          $('#main-form').addClass('hide');
+          $('#success-msg').removeClass('hide');
+        }
+        else {
+          $('#fail-msg').removeClass('hide');
+        }
       }
     });
   }

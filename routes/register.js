@@ -8,6 +8,7 @@ let redis_tool = require('../bin/redis_tool');
 let session_tool = require('../bin/session_tool');
 let validator_tool = require('../bin/validator_tool');
 let checkInput = validator_tool.checkInput;
+let request = require('request');
 const captcha_key = require('../bin/secret_settings').api_settings.captcha_key;
 const name_re = /^(\w{3,63})$/;
 const phone_re = /^(\+\d{1,2}){0,1}(\d|-|\(|\)){7,14}$/;
@@ -100,7 +101,7 @@ router.get('/interests', function (req, res) {
 router.post('/', function(req, res) {
   if (checkInput(req.body.first_name,'string',name_re) && checkInput(req.body.last_name,'string',name_re) && checkInput(req.body.phone,'string',phone_re) && checkInput(req.body.email,'string',email_re) && checkInput(req.body.preference,'number',null) && checkInput(req.body.interest,'number',null) && req.body.captcha_response) {
     try {
-      checkCaptcha(captcha_response, req.connection.remoteAddress, function(captcha_result) {
+      checkCaptcha(req.body.captcha_response, req.connection.remoteAddress, function(captcha_result) {
         if (captcha_result === true) {
           let first_name = req.body.first_name + '';
           let last_name = req.body.last_name + '';
