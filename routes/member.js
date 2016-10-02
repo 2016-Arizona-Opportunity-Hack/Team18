@@ -156,7 +156,7 @@ router.post('/', function(req, res) {
         }
         let type = Number(req.body.type);
         let preference = Number(req.body.preference);
-        let last_contacted = null;
+        let last_contacted = req.body.last_contacted;
         let interest = Number(req.body.interest);
         let comment = null;
         if (req.body.comment) {
@@ -237,7 +237,7 @@ router.put('/', function(req, res) {
         }
         let type = Number(req.body.type);
         let preference = Number(req.body.preference);
-        let last_contacted = null;
+        let last_contacted = req.body.last_contacted;
         let interest = Number(req.body.interest);
         let comment = null;
         if (req.body.comment) {
