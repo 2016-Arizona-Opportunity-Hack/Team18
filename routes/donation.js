@@ -172,50 +172,51 @@ router.put('/', function(req, res) {
 });
 
 router.delete('/', function(req, res) {
-  if (checkInput(req.body.donation_id, 'number', null)) {
-    try {
-      let id = Number(req.body.donation_id);
-      pg_tool.query('DELETE FROM nv.donation WHERE id=$1', [id], function(error, rows) {
-        if (error) {
-          let result = {
-            'status': 500,
-            'message': 'Server Error'
-          };
-          res.send(result);
-        }
-        else {
-          let result = {
-            'status': 200,
-            'message': 'Donation Deleted'
-          };
-          res.send(result);
-        }
-      });
+  if (checkInput(req.session.email, 'string', email_re)) {
+    if (checkInput(req.body.donation_id, 'number', null)) {
+      try {
+        let id = Number(req.body.donation_id);
+        pg_tool.query('DELETE FROM nv.donation WHERE id=$1', [id], function(error, rows) {
+          if (error) {
+            let result = {
+              'status': 500,
+              'message': 'Server Error'
+            };
+            res.send(result);
+          }
+          else {
+            let result = {
+              'status': 200,
+              'message': 'Donation Deleted'
+            };
+            res.send(result);
+          }
+        });
+      }
+      catch (err) {
+        console.log(err);
+        let result = {
+          'status': 500,
+          'message': 'Server Error'
+        };
+        res.send(result);
+      }
     }
-    catch (err) {
-      console.log(err);
+    else {
       let result = {
-        'status': 500,
-        'message': 'Server Error'
+        'status': 400,
+        'message': 'Invalid Parameters'
       };
       res.send(result);
     }
   }
   else {
     let result = {
-      'status': 400,
-      'message': 'Invalid Parameters'
+      'status': 401,
+      'message': 'Unauthorized Request'
     };
     res.send(result);
   }
-}
-else {
-  let result = {
-    'status': 401,
-    'message': 'Unauthorized Request'
-  };
-  res.send(result);
-}
 });
 
 module.exports = router;
