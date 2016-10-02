@@ -46,15 +46,16 @@ function populateMethods() {
 }
 
 function initializeDatepicker() {
-
+  $("#datepicker").datepicker();
+  $("#datepicker").datepicker("option", "dateFormat", 'yy-mm-dd');
 }
 
 function postDonation() {
   var donations_url = getServer()+'/donation';
   var donation_data = {
     amount: $('#amount').val(),
-    donor: $('.selectpicker').val(),
-    date: '2016-08-04',
+    donor: $('#donor').val(),
+    date: $('#datepicker').val(),
     frequency: $('#frequency').val(),
     method: $('#method').val(),
     type: $('#type').val(),

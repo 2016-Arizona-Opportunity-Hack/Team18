@@ -4,7 +4,8 @@
     <%- include('header'); %>
     <title>NAMI-VOS| Donation</title>
     <link rel="stylesheet" href="stylesheets/bootstrap-select.min.css">
-    <!--<script type="text/javascript" src="javascripts/bootstrap-select.js.map"></script>-->
+    <link rel="stylesheet" href="stylesheets/jquery-ui.css">
+    <script type="text/javascript" src="javascripts/jquery-ui.js"></script>
     <script type="text/javascript" src="javascripts/bootstrap-select.min.js"></script>
     <script type="text/javascript" src="javascripts/donations.js"></script>
   </head>
@@ -22,7 +23,7 @@
                 <div class="row">
                   <div class="col-xs-5">
                     <label for="date">Date:</label>
-                    <input class="form-control" type="date" name="date" id="date" required/>
+                    <input class="form-control" type="text" id="datepicker" name="datepicker">
                   </div>
                   <div class="col-xs-5 col-xs-offset-1">
                     <label for="amount">Amount:</label>
