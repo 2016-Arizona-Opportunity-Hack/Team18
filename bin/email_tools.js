@@ -14,8 +14,8 @@ donationResponseHandler.sendResponseEmail = function(donorInfo) {
     const emailConfig = {
         emailContent: {
             from: '"NAMI" <' + senderAddress + '>', // sender address
-            to: '', // list of receivers
-            subject: 'Thank you for you donation', // Subject line
+            to: donorInfo.email, // list of receivers
+            subject: 'Thank you for you donation ' + donorInfo.first_name + '!', // Subject line
             text: 'Thank you for donating', // plaintext body
             html: '<b>Thank you for donating</b>' // html body
         },

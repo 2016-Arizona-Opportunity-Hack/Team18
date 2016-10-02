@@ -153,7 +153,6 @@ router.put('/', function(req, res) {
               'message': 'Donation Updated'
             };
             res.send(result);
-            //TODO: send donation response/notification
           }
         });
       }
@@ -165,6 +164,31 @@ router.put('/', function(req, res) {
         };
         res.send(result);
       }
+    }
+    else {
+      let result = {
+        'status': 400,
+        'message': 'Invalid Parameters'
+      };
+      res.send(result);
+    }
+  }
+  else if (req.body.key){
+    let email = req.body.email + '';
+    if (checkInput(email, 'string', email_re)) {
+      pg_tool.query('SELECT * FROM nv.member WHERE email=$1', [email], function(error, rows) {
+        if (error) {
+          let result = {
+            'status': 500,
+            'message': 'Server Error'
+          };
+          res.send(result);
+        }
+        else {
+          const member = rows[0];
+          donationResponseHandler.sendResponseEmail(member);
+        }
+      });
     }
     else {
       let result = {

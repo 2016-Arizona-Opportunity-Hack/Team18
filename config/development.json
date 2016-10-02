@@ -1,7 +1,7 @@
 {
     "AMQPServer": {
-        "host": "",
-        "port": 0,
+        "host": "10.12.0.117",
+        "port": 5672,
     },
     "App": {
         "queue": "development_app_queue"
