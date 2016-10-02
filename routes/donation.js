@@ -8,7 +8,8 @@ let redis_tool = require('../bin/redis_tool');
 let session_tool = require('../bin/session_tool');
 let validator_tool = require('../bin/validator_tool');
 let checkInput = validator_tool.checkInput;
-let email_tools = require('../bin/email_tools');
+// let email_tools = require('../bin/email_tools');
+// let texting_tool = require('../bin/texting_tool');
 const donationResponseHandler = require('../bin/email_tools').getDonationResponseHandler();
 const donationNotificationHandler = require('../bin/email_tools').getDonationNotificationHandler();
 const email_re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -25,7 +26,23 @@ function sendMessages(donor_id, amount, date) {
     )).asCallback((error, rows) => {
       let donor = rows[0];
       console.log(donor);
-      //call email service//
+      let donor_info = {
+        email: donor.email,
+        first_name: donor.first_name,
+        last_name: donor.last_name,
+        amount: amount,
+        date: date
+      };
+      if (donor.preference_id === 1) {
+        // let email_handler = email_tools.getDonationResponseHandler();
+        // email_handler.sendResponseEmail(donor_info); //needs very specific setup
+      }
+      else if (donor.preference_id === 2) {
+        // let text_handler = texting_tool.getDonationTextingHandler();
+        // text_handler.sendResponseText(donor_info);
+      }
+      // let notification_handler = email_tools.getDonationNotificationHandler();
+      // notification_handler.sendNotificationEmail(donor_info);
     });
   }
   catch (err) {

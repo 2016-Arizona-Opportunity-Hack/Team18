@@ -16,9 +16,9 @@ donationResponseHandler.sendResponseEmail = function(donorInfo) {
             emailContent: {
                 from: '"NAMI" <' + senderAddress + '>', // sender address
                 to: donorInfo.email, // list of receivers
-                subject: 'Thank you for you donation ' + donorInfo.first_name + '!', // Subject line
-                text: 'Thank you for donating', // plaintext body
-                html: '<b>Thank you for donating</b>' // html body
+                subject: 'Thank you for your donation ' + donorInfo.first_name + ' ' + donorInfo.last_name + '!', // Subject line
+                text: 'Thank you for donating $'+donorInfo.amount+'.', // plaintext body
+                html: '<b>Thank you for donating $'+donorInfo.amount+'.</b>' // html body
             },
             smtpOptions: {
                 auth: {
@@ -37,10 +37,10 @@ donationNotificationHandler.sendNotificationEmail = function(donorInfo) {
     const emailConfig = {
         emailContent: {
             from: '"NAMI" <' + senderAddress + '>', // sender address
-            to: '', // list of receivers
-            subject: '(name) has sent a donation', // Subject line
-            text: '(donor/donation overview)', // plaintext body
-            html: '<b>(donor/donation overview)</b>' // html body
+            to: 'demetri@asu.edu', // list of receivers //TODO: add real list
+            subject: donorInfo.first_name + ' ' + donorInfo.last_name + ' has sent a donation', // Subject line
+            text: donorInfo.first_name + ' ' + donorInfo.last_name + ' has sent a donation of $'+donorInfo.amount, // plaintext body
+            html: '<b>'+donorInfo.first_name + ' ' + donorInfo.last_name + ' has sent a donation of $'+donorInfo.amount+'</b>' // html body
         },
         smtpOptions: {
             auth: {
