@@ -91,7 +91,11 @@ router.post('/', function(req, res) {
 
 router.put('/', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
-    res.send('it works');
+    let result = {
+      'status': 501,
+      'message': 'Not Implemented'
+    };
+    res.send(result);
   }
   else {
     let result = {
@@ -103,8 +107,43 @@ router.put('/', function(req, res) {
 });
 
 router.delete('/', function(req, res) {
-  if (checkInput(req.session.email, 'string', email_re)) {
-    res.send('it works');
+  if (checkInput(req.session.email, 'string', email_re) && req.session.type === 'super') {
+    if (checkInput(req.body.member_id, 'number', null)) {
+      try {
+        let id = Number(req.body.member_id);
+        pg_tool.query('DELETE FROM nv.member WHERE id=$1', [id], function(error, rows) {
+          if (error) {
+            let result = {
+              'status': 500,
+              'message': 'Server Error'
+            };
+            res.send(result);
+          }
+          else {
+            let result = {
+              'status': 200,
+              'message': 'Member Deleted'
+            };
+            res.send(result);
+          }
+        });
+      }
+      catch (err) {
+        console.log(err);
+        let result = {
+          'status': 500,
+          'message': 'Server Error'
+        };
+        res.send(result);
+      }
+    }
+    else {
+      let result = {
+        'status': 400,
+        'message': 'Invalid Parameters'
+      };
+      res.send(result);
+    }
   }
   else {
     let result = {
