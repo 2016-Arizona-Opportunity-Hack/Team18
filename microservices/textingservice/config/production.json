@@ -1,0 +1,7 @@
+{
+    "AMPQServer": {
+        "host": "localhost",
+        "port": 5672,
+        "queue": "development_texting_service_queue"
+    }
+}

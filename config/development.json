@@ -1,0 +1,12 @@
+{
+    "AMQPServer": {
+        "host": "10.143.202.235",
+        "port": 5672
+    },
+    "App": {
+        "queue": "development_app_queue"
+    },
+    "EmailService": {
+        "queue": "development_email_service_queue"
+    }
+}
