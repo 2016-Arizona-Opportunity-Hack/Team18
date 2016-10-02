@@ -4,10 +4,11 @@ const amqp = require('amqplib/callback_api');
 const bail = require('bail');
 const config = require('config');
 const amqpConfig = config.get('AMPQServer');
+const appConfig = config.get('App');
+const emailServiceConfig = config.get('EmailService');
 
 let channel;
 let running = false;
-let consumerID = 0;
 
 const start = function () {
     if (!running) {
@@ -19,18 +20,14 @@ const start = function () {
                 if (err2 != null) bail(err2);
                 channel = ch;
                 running = true;
-
-                //Initialize exchange and queue
-                ch.assertQueue(amqpConfig.queue);
-                ch.assertExchange(amqpConfig.exchange);
             });
         });
     }
 };
 
-function MessagingHandler(routingKey) {
-    this.id = getNextID();
-    this.routingKey = routingKey;
+function MessagingHandler(queue) {
+    this.queue = appConfig.queue + '_' + queue;
+
     this.setConsumer(callback) {
         if(!channel) bail(new Error('AMQP is not connected'));
 
@@ -39,21 +36,18 @@ function MessagingHandler(routingKey) {
             callback(msg);
         };
 
-        channel.consume(amqpConfig.queue, consumerFun, {consumerTag: this.id};
+        channel.assertQueue(this.queue);
+        channel.consume(this.queue, consumerFun);
     }
 
     this.publishMessage(msg) {
-        msg.replyTo = this.id;
-        channel.publish(amqpConfig.exchange, this.routingKey, new Buffer(JSON.stringify(msg)));
+        msg.replyTo = this.queue;
+        channel.publish('', emailServiceConfig.queue, new Buffer(JSON.stringify(msg)));
     }
 }
 
 const createMessagingHandler = function () {
     return new MessagingHandler();
-};
-
-const getNextID = function () {
-    return '' + consumerID++;
 };
 
 const isRunning = function () {

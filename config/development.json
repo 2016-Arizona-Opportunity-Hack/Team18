@@ -2,7 +2,11 @@
     "AMQPServer": {
         "host": "",
         "port": 0,
-        "queue": "development_app_queue",
-        "exchange": "development_app_exchange"
+    },
+    "App": {
+        "queue": "development_app_queue"
+    },
+    "EmailService": {
+        "queue": "development_email_service_queue"
     }
 }
