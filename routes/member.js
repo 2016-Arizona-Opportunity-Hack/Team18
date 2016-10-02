@@ -12,12 +12,41 @@ const email_re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@
 
 let router = express.Router();
 
-router.get('/', function(req, res) {
+router.get('/:id', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
-    res.send('member works');
+    if (checkInput(req.params.id, 'number', null)) {
+      try {
+        let id = Number(req.params.id);
+        pg_tool.query('SELECT * FROM nv.member WHERE id=$1', [id], function(error, rows) {
+          let result = {
+            'status': 200,
+            'member': rows[0]
+          }
+          res.send(result);
+        });
+      }
+      catch (err) {
+        let result = {
+          'status': 500,
+          'message': 'Server Error'
+        };
+        res.send(result);
+      }
+    }
+    else {
+      let result = {
+        'status': 400,
+        'message': 'Invalid Parameters'
+      };
+      res.send(result);
+    }
   }
   else {
-    res.render('login')
+    let result = {
+      'status': 401,
+      'message': 'Unauthorized Request'
+    };
+    res.send(result);
   }
 });
 
