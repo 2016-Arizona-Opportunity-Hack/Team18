@@ -15,7 +15,7 @@ let router = express.Router();
 
 router.get('/', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
-    res.render('home');
+    res.render('home', { name: req.session.name });
   }
   else {
     res.render('login');
@@ -27,7 +27,7 @@ router.post('/auth', function(req, res) {
   if (checkInput(req.body.email, 'string', email_re) && checkInput(req.body.password, 'string', pass_re)) {
     let email = req.body.email + '';
     email = email.toLowerCase();
-    pg_tool.query('SELECT password, type FROM nv.admin WHERE email=$1', [email], function(error, rows) {
+    pg_tool.query('SELECT password, type, first_name FROM nv.admin WHERE email=$1', [email], function(error, rows) {
       if (error) {
         let result = {
           "status": 500,
@@ -38,6 +38,7 @@ router.post('/auth', function(req, res) {
       else {
         if (rows[0] && bcrypt.compareSync(req.body.password, rows[0].password)) {
           req.session.email = email;
+          req.session.name = rows[0].first_name;
           req.session.type = rows[0].type;
           let result = {
             "status": 200,

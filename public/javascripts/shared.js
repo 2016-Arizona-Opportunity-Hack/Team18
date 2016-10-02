@@ -6,7 +6,7 @@ function getServer() {
 
 function logout()
 {
-  var logout_url = getServer() + '/session/';
+  var logout_url = getServer() + '/session';
   console.log("here9");
   $.ajax({
     type: "DELETE",
