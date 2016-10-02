@@ -23,7 +23,6 @@ router.get('/', function(req, res) {
   }
 });
 
-
 router.get('/donors', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     try {
@@ -231,15 +230,14 @@ router.put('/', function(req, res) {
         if (req.body.comment) {
           comment = req.body.comment + '';
         }
-        knex('nv.donation').update(knex.raw('(amount,donor_id,date,frequency,method_id,type_id,comment) VALUES' +
-            '(:amount,:donor_id,:date,:frequency,:method_id,:type_id,:comment)', {
+        knex('nv.donation').where('id',id).update({
             amount: amount,
             donor_id: donor_id,
             frequency: frequency,
             method_id: method_id,
             type_id: type_id,
             comment: comment
-          })).where(knex.raw('?? = ?', ['id', id])).asCallback((error, rows) => {
+          }).where(knex.raw('?? = ?', ['id', id])).asCallback((error, rows) => {
             if (error) {
               console.log(error);
               let result = {
