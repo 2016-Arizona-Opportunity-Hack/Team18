@@ -146,3 +146,7 @@ body {
 .push-down-a-bit {
   margin-top: 7rem;
 }
+
+#error-msg {
+  color: red;
+}

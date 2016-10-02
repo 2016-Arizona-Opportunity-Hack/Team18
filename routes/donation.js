@@ -14,6 +14,23 @@ const date_re = /^\d{4}-\d{2}-\d{2}$/;
 
 let router = express.Router();
 
+function sendMessages(donor_id, amount, date) {
+  try {
+    knex('nv.member').where(knex.raw(
+      'id = :donor_id',
+      { 'donor_id': donor_id }
+    )).asCallback((error, rows) => {
+      let donor = rows[0];
+      console.log(donor);
+      //call email service//
+    });
+  }
+  catch (err) {
+    console.log("ERROR SENDING MESSAGES: ");
+    console.log(err);
+  }
+}
+
 router.get('/', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     res.render('donations', { name: req.session.name });
@@ -181,6 +198,7 @@ router.post('/', function(req, res) {
               res.send(result);
             }
             else {
+              sendMessages(donor_id, amount, date);
               let result = {
                 'status': 201,
                 'message': 'Donation Created'
