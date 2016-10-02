@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('header'); %>
+    <title>NAMI-VOS| Register</title>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <link rel="stylesheet" href="stylesheets/bootstrap-select.min.css">
+    <link rel="stylesheet" href="stylesheets/jquery-ui.css">
+    <script type="text/javascript" src="javascripts/jquery-ui.js"></script>
+    <script type="text/javascript" src="javascripts/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="javascripts/register.js"></script>
+  </head>
+  <body onload="setup();" class="container-fluid ">
+    <div class="row">
+      <div class="donationForm-container col-xs-6 col-md-offset-3">
+        <div class="panel-group">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4>Welcome Participants</h4>
+            </div>
+            <div class="panel-body">
+              <div>
+                <div class="row">
+                  
+                </div>
+                <div class="g-recaptcha" data-sitekey="6LeFMQgUAAAAAEbf17SKD77cfszpHVh1uh_FTbZP"></div>
+                <div class = "row"
+                  <div class="col-xs-12">
+                    <div class ="text-right" >
+                      <button type="button" class="btn btn-primary" onclick="register();" id="register-btn">Submit</button>
+                    </div>
+                  </div
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <%- include('footer'); %>
+</html>
