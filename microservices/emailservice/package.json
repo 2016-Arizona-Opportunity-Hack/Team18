@@ -1,0 +1,17 @@
+{
+  "name": "emailservice",
+  "version": "1.0.0",
+  "description": "Service that handles sending emails",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "dependencies": {
+    "amqplib": "0.4.2",
+    "nodemailer": "2.6.4",
+    "config": "1.21.0",
+    "mocha": "3.1.0"
+  },
+  "author": "",
+  "license": "ISC"
+}

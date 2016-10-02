@@ -1,0 +1,8 @@
+{
+    "AMPQServer": {
+        "host": "http://localhost",
+        "port": 1234,
+        "queue": "email_service_queue",
+        "exchange": "email_service_exchange"
+    }
+}
