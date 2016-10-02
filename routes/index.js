@@ -27,7 +27,6 @@ router.post('/auth', function(req, res) {
   if (checkInput(req.body.email, 'string', email_re) && checkInput(req.body.password, 'string', pass_re)) {
     let email = req.body.email + '';
     email = email.toLowerCase();
-
     knex('nv.admin').select().where(knex.raw('email = :email', {email:email})).asCallback((error, rows) => {
       if (error) {
         let result = {
