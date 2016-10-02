@@ -9,6 +9,8 @@ let session_tool = require('../bin/session_tool');
 let validator_tool = require('../bin/validator_tool');
 let checkInput = validator_tool.checkInput;
 const email_re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const name_re = /^(\w{3,63})$/;
+const phone_re = /^(\+\d{1,2}){0,1}(\d|-|\(|\)){7,14}$/;
 
 let router = express.Router();
 
@@ -52,7 +54,7 @@ router.get('/:id', function(req, res) {
 
 router.post('/', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
-    if (req.body.first_name && req.body.last_name && req.body.phone && req.body.email && req.body.type && req.body.preference && req.body.interest) {
+    if (checkInput(req.body.first_name,'string',name_re) && checkInput(req.body.last_name,'string',name_re) && checkInput(req.body.phone,'string',phone_re) && checkInput(req.body.email,'string',email_re) && checkInput(req.body.type,'number',null) && checkInput(req.body.preference,'number',null) && checkInput(req.body.interest,'number',null)) {
       try {
         let first_name = req.body.first_name + '';
         let last_name = req.body.last_name + '';
@@ -120,7 +122,7 @@ router.post('/', function(req, res) {
 
 router.put('/', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
-    if (req.body.id && req.body.first_name && req.body.last_name && req.body.phone && req.body.email && req.body.type && req.body.preference && req.body.interest) {
+    if (checkInput(req.body.id,'number',null) && checkInput(req.body.first_name,'string',name_re) && checkInput(req.body.last_name,'string',name_re) && checkInput(req.body.phone,'string',phone_re) && checkInput(req.body.email,'string',email_re) && checkInput(req.body.type,'number',null) && checkInput(req.body.preference,'number',null) && checkInput(req.body.interest,'number',null)) {
       try {
         let id = Number(req.body.id);
         let first_name = req.body.first_name + '';

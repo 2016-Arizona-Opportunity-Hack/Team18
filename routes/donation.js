@@ -9,6 +9,8 @@ let session_tool = require('../bin/session_tool');
 let validator_tool = require('../bin/validator_tool');
 let checkInput = validator_tool.checkInput;
 const email_re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const name_re = /^(\w{3,63})$/;
+const date_re = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
 
 let router = express.Router();
 
@@ -52,7 +54,7 @@ router.get('/:id', function(req, res) {
 
 router.post('/', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
-    if (req.body.amount,req.body.donor,req.body.date,req.body.frequency,req.body.method,req.body.type) {
+    if (checkInput(req.body.amount,'number',null) && checkInput(req.body.donor,'number',null) && checkInput(req.body.date,'string',date_re) && checkInput(req.body.frequency,'string',name_re) && checkInput(req.body.method,'number',null) && checkInput(req.body.type,'number',null)) {
       try {
         let amount = Number(req.body.amount);
         let donor = Number(req.body.donor);
@@ -111,7 +113,7 @@ router.post('/', function(req, res) {
 
 router.put('/', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
-    if (req.body.id,req.body.amount,req.body.donor,req.body.date,req.body.frequency,req.body.method,req.body.type) {
+    if (checkInput(req.body.id,'number',null) && checkInput(req.body.amount,'number',null) && checkInput(req.body.donor,'number',null) && checkInput(req.body.date,'string',date_re) && checkInput(req.body.frequency,'string',name_re) && checkInput(req.body.method,'number',null) && checkInput(req.body.type,'number',null)) {
       try {
         let id = Number(req.body.id);
         let amount = Number(req.body.amount);
