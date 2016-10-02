@@ -1,8 +1,26 @@
 'use strict'
 
 function setup() {
-  $( "#" ).click(function() {
-  });
+  populateDonors();
+  populateTypes();
+  populateMethods();
+  initializeDatepicker();
+}
+
+function populateDonors() {
+  
+}
+
+function populateTypes() {
+
+}
+
+function populateMethods() {
+
+}
+
+function initializeDatepicker() {
+
 }
 
 function postDonation() {
