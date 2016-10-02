@@ -3,7 +3,7 @@
 const amqpHandler = require('./amqp_handler.js');
 const routingKey = 'textingservice';
 
-const donationTextingHandler = amqpHandler.createTextingHandler(routingKey);
+const donationTextingHandler = amqpHandler.createMessagingHandler(routingKey);
 
 const senderAddress = process.env.AUTO_TEXTER_SID;
 const senderPass = process.env.AUTO_TEXTER_TOKEN;
