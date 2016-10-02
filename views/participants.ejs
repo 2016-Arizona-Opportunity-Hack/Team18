@@ -6,13 +6,14 @@
   <script type="text/javascript" src="javascripts/participants.js"></script>
 </head>
 <%- include('navbar'); %>
-<body>
+<%- include('member_modal'); %>
+<body onload="setup();">
   <div class="container">
     <div id="participants-title" class="basic-coloring">
       <h2>Participants</h2>
     </div>
     <div id="participants-table">
-      <table class="table table-hover table-sm table-inverse">
+      <table class="table table-hover table-sm">
         <thead id="participants-table-head">
           <tr>
             <th class="basic-coloring">Name</th>
@@ -22,32 +23,7 @@
         </thead>
         <tbody id="participants-table-body">
           <tr>
-            <td id="participants-add" colspan="3" class="text-center">Add Participant</td>
-          </tr>
-          <tr onclick="GetParticipantInfo(<members_id>);">
-            <td>Tester, Testingson</td>
-            <td>test@mail.com</td>
-            <td>Epoch time, 1970</td>
-          </tr>
-          <tr>
-            <td>Tester, Testingson</td>
-            <td>test@mail.com</td>
-            <td>Epoch time, 1970</td>
-          </tr>
-          <tr>
-            <td>Tester, Testingson</td>
-            <td>test@mail.com</td>
-            <td>Epoch time, 1970</td>
-          </tr>
-          <tr>
-            <td>Tester, Testingson</td>
-            <td>test@mail.com</td>
-            <td>Epoch time, 1970</td>
-          </tr>
-          <tr>
-            <td>Tester, Testingson</td>
-            <td>test@mail.com</td>
-            <td>Epoch time, 1970</td>
+            <td id="participants-add" class="text-center" colspan="3"><i class="fa fa-user-plus fa-lg" aria-hidden="true"></i></td>
           </tr>
         </tbody>
       </table>

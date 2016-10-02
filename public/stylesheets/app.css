@@ -131,9 +131,11 @@ body {
 
 .table tbody tr > td {
   color: #002749 !important;
+  cursor: pointer;
 }
 
 .table-hover tbody tr:hover > td {
   color: #FFFFFF !important;
   background-color: #002749 !important;
+  cursor: pointer;
 }

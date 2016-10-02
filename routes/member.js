@@ -50,7 +50,8 @@ router.get('/:id', function(req, res) {
         pg_tool.query('SELECT * FROM nv.member WHERE id=$1', [id], function(error, rows) {
           let result = {
             'status': 200,
-            'member': rows[0]
+            'member': rows[0],
+            'message': 'Successfully accessed participant data'
           }
           res.send(result);
         });
