@@ -61,13 +61,17 @@ function postDonation() {
     type: $('#type').val(),
     comment: $('#comment').val()
   };
-  console.log(donation_data);
   $.ajax({
     type: "POST",
     url: donations_url,
     data: donation_data,
     success: function(result) {
-      console.log(result);
+      if (result.status === 201) {
+        location.reload();
+      }
+      else {
+        $('#error-msg').removeClass('hide');
+      }
     }
   });
 }
