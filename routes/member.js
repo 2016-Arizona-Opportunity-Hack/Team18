@@ -45,7 +45,7 @@ router.get('/interests', function(req, res) {
 router.get('/preferences', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     try {
-      pg_tool.query('SELECT * FROM nv.communication_preferences', [], function(error, rows) {
+      pg_tool.query('SELECT * FROM nv.communication_preference', [], function(error, rows) {
         let result = {
           'status': 200,
           'preferences': rows
