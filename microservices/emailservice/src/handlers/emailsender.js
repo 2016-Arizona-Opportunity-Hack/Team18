@@ -4,15 +4,12 @@ const config = require('config');
 const emailServerConfig = config.get('EmailServer');
 
 const sendEmail = function (emailJson, callback) {
-    const transporter = nodemailer.createTransport(
-        'smtps://' +
-        encodeURI(emailJson.from.address) + ':' +
-        encodeURI(emailJson.from.password) + '@' +
-        emailServerConfig.host + ':' +
-        emailServerConfig.port
-    );
-
-    transporter.sendMail(emailJson, callback);
+    const smtpOptions = {
+        service: 'zoho',
+        auth: emailJson.smtpOptions.auth
+    };
+    const transporter = nodemailer.createTransport(smtpOptions);
+    transporter.sendMail(emailJson.emailContent, callback);
 };
 
-modules.exports.sendEmail = sendEmail;
+module.exports.sendEmail = sendEmail;

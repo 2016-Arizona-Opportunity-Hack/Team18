@@ -1,6 +1,7 @@
 'use strict';
 
 const amqp = require('amqplib/callback_api');
+const bail = require('bail');
 const config = require('config');
 const amqpConfig = config.get('AMPQServer');
 const emailSender = require('./handlers/emailsender.js');
@@ -10,33 +11,42 @@ const start = function () {
         if (err != null) bail(err);
 
         const startConsumingFromQueue = function () {
-            conn.createChannel(on_open);
-
-            const on_open = function (err2, ch) {
-                conn.consume(amqpConfig.queue, (msg) => {
-                    if (err2 != null) {
-                        callback(err2, null);
-                    }
-                    else {
-                        const msgContents = msg.content.toJSON();
+            const onOpen = function (err2, ch) {
+                if (err2 != null) bail(err2);
+                ch.assertQueue(amqpConfig.queue);
+                ch.consume(amqpConfig.queue, (msg) => {
+                    const msgContents = JSON.parse(msg.content.toString());
+                    try {
                         emailSender.sendEmail(msgContents, (err3, response) => {
-                            publishToExchange(routingKey, response);
+                            if (err3 != null) {
+                                ch.ack(msg);
+                                publishToExchange(err3)
+                            }
+                            else {
+                                ch.ack(msg);
+                                publishToExchange(response);
+                            }
                         });
                     }
+                    catch (e) {
+                        ch.ack(msg);
+                        publishToExchange(e);
+                    }
                 });
-
                 console.log('listening for messages on ' + amqpConfig.queue + ' queue');
             };
+            conn.createChannel(onOpen);
         };
 
-        const publishToExchange = function (routingKey, msg) {
+        const publishToExchange = function (msg) {
             conn.createChannel((err2, ch) => {
                 if (err2 != null) bail(err2);
                 ch.assertExchange(amqpConfig.exchange);
-                ch.publish(amqpConfig.queue);
+                ch.publish(amqpConfig.exchange, '', new Buffer(JSON.stringify(msg)));
             });
         };
 
+        startConsumingFromQueue();
         console.log('connected to amqp server');
     });
 };

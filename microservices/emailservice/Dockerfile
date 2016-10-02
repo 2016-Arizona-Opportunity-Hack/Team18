@@ -1,10 +1,10 @@
-FROM node:4
+FROM node:argon
 
-ENV REFRESHED 2015-12-18
-ENV NODE_PATH /usr/local/lib/node_modules/emailservice/node_modules/
-VOLUME ["/opt/app"]
-WORKDIR "/opt/app"
-ADD package.json /opt/app/package.json
-RUN npm install --global
+ENV NODE_ENV test
+RUN mkdir -p /usr/app/opphack/microservices/emailservice
+WORKDIR /usr/app/opphack/microservices/emailservice
+COPY package.json /usr/app/opphack/microservices/emailservice/
+RUN npm install
+COPY . /usr/app/opphack/microservices/emailservice
 EXPOSE 3000
-CMD npm start
+CMD [ "node", "index.js" ]

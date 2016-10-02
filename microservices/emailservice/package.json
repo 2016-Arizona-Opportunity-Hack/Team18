@@ -4,9 +4,10 @@
   "description": "Service that handles sending emails",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "start": "node index.js"
   },
   "dependencies": {
+    "bail": "1.0.1",
     "amqplib": "0.4.2",
     "nodemailer": "2.6.4",
     "config": "1.21.0",

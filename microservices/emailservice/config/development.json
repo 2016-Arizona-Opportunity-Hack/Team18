@@ -1,8 +1,12 @@
 {
     "AMPQServer": {
-        "host": "http://localhost",
-        "port": 1234,
-        "queue": "email_service_queue",
-        "exchange": "email_service_exchange"
+        "host": "some-rabbit",
+        "port": 5672,
+        "queue": "development_email_service_queue",
+        "exchange": "development_email_service_exchange"
+    },
+    "EmailServer": {
+        "host": "smtp.zoho.com",
+        "port": 465
     }
 }
