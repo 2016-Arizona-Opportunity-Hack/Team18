@@ -2,7 +2,7 @@
 
 let app = require('../app');
 let express = require('express');
-let pg_tool = require('../bin/pg_tool');
+let knex = require('../bin/knex_tool').getKnex();
 let aes_tool = require('../bin/aes_tool');
 let bcrypt = require('bcrypt-nodejs');
 let redis_tool = require('../bin/redis_tool');
@@ -27,7 +27,7 @@ router.post('/auth', function(req, res) {
   if (checkInput(req.body.email, 'string', email_re) && checkInput(req.body.password, 'string', pass_re)) {
     let email = req.body.email + '';
     email = email.toLowerCase();
-    pg_tool.query('SELECT password, type, first_name FROM nv.admin WHERE email=$1', [email], function(error, rows) {
+    knex('nv.admin').select().where(knex.raw('email = :email', {email:email})).asCallback((error, rows) => {
       if (error) {
         let result = {
           "status": 500,

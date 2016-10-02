@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('header'); %>
+  <title>NAMI-VOS | Participants</title>
+  <link rel="stylesheet" href="stylesheets/bootstrap-select.min.css">
+  <link rel="stylesheet" href="stylesheets/jquery-ui.css">
+  <script type="text/javascript" src="javascripts/jquery-ui.js"></script>
+  <script type="text/javascript" src="javascripts/bootstrap-select.min.js"></script>
+  <script type="text/javascript" src="javascripts/participants.js"></script>
+</head>
+<%- include('navbar'); %>
+<%- include('member_modal'); %>
+<body onload="setup();">
+  <div class="container">
+    <div id="participants-title" class="basic-coloring">
+      <h2>Participants</h2>
+    </div>
+    <div id="participants-table">
+      <table class="table table-hover table-sm">
+        <thead id="participants-table-head">
+          <tr>
+            <th class="basic-coloring">Name</th>
+            <th class="basic-coloring">Email</th>
+            <th class="basic-coloring">Last Contacted</th>
+          </tr>
+        </thead>
+        <tbody id="current-member-table-body">
+          <tr>
+            <td id="participants-add" class="text-center" colspan="3"><i class="fa fa-user-plus fa-lg" aria-hidden="true"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+<%- include('footer'); %>

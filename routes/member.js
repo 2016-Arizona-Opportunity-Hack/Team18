@@ -2,7 +2,7 @@
 
 let app = require('../app');
 let express = require('express');
-let pg_tool = require('../bin/pg_tool');
+let knex = require('../bin/knex_tool').getKnex();
 let aes_tool = require('../bin/aes_tool');
 let redis_tool = require('../bin/redis_tool');
 let session_tool = require('../bin/session_tool');
@@ -14,10 +14,67 @@ const phone_re = /^(\+\d{1,2}){0,1}(\d|-|\(|\)){7,14}$/;
 
 let router = express.Router();
 
+router.get('/interests', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    try {
+      knex('nv.engagement_interest').asCallback((error, rows) => {
+        let result = {
+          'status': 200,
+          'interests': rows
+        }
+        res.send(result);
+      });
+    }
+    catch (err) {
+      let result = {
+        'status': 500,
+        'message': 'Server Error'
+      };
+      res.send(result);
+    }
+  }
+  else {
+    let result = {
+      'status': 401,
+      'message': 'Unauthorized Request'
+    };
+    res.send(result);
+  }
+});
+
+router.get('/preferences', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    try {
+      knex('nv.communication_preference').asCallback((error, rows) => {
+        let result = {
+          'status': 200,
+          'preferences': rows
+        }
+        res.send(result);
+      });
+    }
+    catch (err) {
+      let result = {
+        'status': 500,
+        'message': 'Server Error'
+      };
+      res.send(result);
+    }
+  }
+  else {
+    let result = {
+      'status': 401,
+      'message': 'Unauthorized Request'
+    };
+    res.send(result);
+  }
+});
+
+
 router.get('/all', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     try {
-      pg_tool.query('SELECT * FROM nv.member', [], function(error, rows) {
+      knex('nv.member').asCallback((error, rows) => {
         let result = {
           'status': 200,
           'members': rows
@@ -47,10 +104,11 @@ router.get('/:id', function(req, res) {
     if (checkInput(req.params.id, 'number', null)) {
       try {
         let id = Number(req.params.id);
-        pg_tool.query('SELECT * FROM nv.member WHERE id=$1', [id], function(error, rows) {
+        knex('nv.member').where(knex.raw('id = :id', {id: id})).asCallback((error, rows) => {
           let result = {
             'status': 200,
-            'member': rows[0]
+            'member': rows[0],
+            'message': 'Successfully accessed participant data'
           }
           res.send(result);
         });
@@ -105,7 +163,19 @@ router.post('/', function(req, res) {
           comment = req.body.comment + '';
         }
         let params = [first_name,last_name,phone,email,address,company,type,preference,last_contacted,interest,comment];
-        pg_tool.query('INSERT INTO nv.member(first_name,last_name,phone,email,address,company,type_id,communication_preference_id,last_contacted,engagement_interest_id,comment) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)', params, function(error, rows) {
+        knex('nv.member').insert(knex.raw('(first_name,last_name,phone,email,address,company,type_id,communication_preference_id,last_contacted,engagement_interest_id,comment) VALUES (:first_name,:last_name,:phone,:email,:address,:company,:type_id,:communication_preference_id,:last_contacted,:engagement_interest_id,:comment)', {
+          first_name: first_name,
+          last_name: last_name,
+          phone: phone,
+          email: email,
+          address: address,
+          company: company,
+          type_id: type,
+          communication_preference_id: preference,
+          last_contacted: last_contacted,
+          engagement_interest_id: interest,
+          comment: comment
+        })).asCallback((error, rows) => {
           if (error) {
             let result = {
               'status': 500,
@@ -174,7 +244,18 @@ router.put('/', function(req, res) {
           comment = req.body.comment + '';
         }
         let params = [first_name,last_name,phone,email,address,company,type,preference,last_contacted,interest,comment,id];
-        pg_tool.query('UPDATE nv.member SET first_name=$1, last_name=$2, phone=$3, email=$4, address=$5, company=$6, type_id=$7, communication_preference_id=$8, last_contacted=$9, engagement_interest_id=$10, comment=$11 WHERE id=$12', params, function(error, rows) {
+        knex('nv.member').insert(knex.raw('(first_name,last_name,phone,email,address,company,type_id,communication_preference_id,last_contacted,engagement_interest_id,comment) VALUES (:first_name,:last_name,:phone,:email,:address,:company,:type_id,:communication_preference_id,:last_contacted,:engagement_interest_id,:comment)', {          first_name: first_name,
+          last_name: last_name,
+          phone: phone,
+          email: email,
+          address: address,
+          company: company,
+          type_id: type,
+          communication_preference_id: preference,
+          last_contacted: last_contacted,
+          engagement_interest_id: interest,
+          comment: comment
+        })).asCallback((error, rows) => {
           if (error) {
             let result = {
               'status': 500,
@@ -222,7 +303,7 @@ router.delete('/', function(req, res) {
     if (checkInput(req.body.member_id, 'number', null)) {
       try {
         let id = Number(req.body.member_id);
-        pg_tool.query('DELETE FROM nv.member WHERE id=$1', [id], function(error, rows) {
+        knex('nv.member').delete().where(knex.raw('id = :id', {id: id})).asCallback((error, rows) => {
           if (error) {
             let result = {
               'status': 500,

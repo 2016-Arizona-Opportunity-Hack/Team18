@@ -21,7 +21,8 @@
     "request": "^2.74.0",
     "bail": "1.0.1",
     "amqplib": "0.4.2",
-    "config": "1.21.0"
+    "config": "1.21.0",
+    "knex": "0.12.2"
   },
   "repository": {
     "type": "git",
