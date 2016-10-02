@@ -7,45 +7,66 @@
 </head>
 <%- include('navbar'); %>
 <body>
-<<<<<<< 200aa25bb8c6ce77c01ec9c1ae114e000dd7e70e
-  <div class="container">
-
-=======
   <div class = "container content-container">
     <div class = "row">
-      <div class = "col-md-2"></div>
-      <div class = "center-container col-md-8">
-
+      <div class = "col-md-1"></div>
+      <div class = "center-container col-md-10">
         <div class = "row">
-          <div class = "well">
-          </div>
-        </div>
-
-        <div class = "row">
-          <div class = "well">
-            <div class = "col-md-3">
-              <div id = "graphMoney">
-
-              </div>
-            </div>
-            <div class = "col-md-1"></div>
-            <div class = "col-md-3">
-              <div id = "graphParticipents">
-
-              </div>
-            </div>
-            <div class = "col-md-1"></div>
-            <div class = "col-md-3">
-              <div id = "servicePopularity">
-
+          <div class = "col-md-2"> </div>
+          <div class = "col-md-8">
+            <div class="panel panel-primary">
+              <div class="panel-heading"><h3>Top 10 Donors</h3></div>
+              <div class="panel-body">
+                <table class = "top10-tbl">
+                  <tr>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Amount</th>
+                  </tr>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>$1</td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>
+          <div class = "col-md-2"></div>
         </div>
-
+        <div class = "graphs row">
+          <div class = "col-md-4">
+            <div id = "graphMoney">
+              <div class="panel panel-primary">
+                <div class="panel-heading"><h3>Donation Trends</h3></div>
+                <div class="panel-body">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class = "col-md-4">
+            <div id = "graphParticipents">
+              <div class="panel panel-primary">
+                <div class="panel-heading"><h3>Sponsor Trends</h3></div>
+                <div class="panel-body">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class = "col-md-4">
+            <div id = "servicePopularity">
+              <div class="panel panel-primary">
+                <div class="panel-heading"><h3>Service Interests</h3></div>
+                <div class="panel-body">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class = "col-md-2"></div>
->>>>>>> home page markup updated
+      <div class = "col-md-1"></div>
+    </div>
   </div>
 </body>
 <%- include('footer'); %>
