@@ -11,22 +11,24 @@ const senderPass = process.env.AUTO_SENDER_PASS;
 //Sends a response email to a donor
 donationResponseHandler.sendResponseEmail = function(donorInfo) {
     //TODO: add donor response template
-    const emailConfig = {
-        emailContent: {
-            from: '"NAMI" <' + senderAddress + '>', // sender address
-            to: donorInfo.email, // list of receivers
-            subject: 'Thank you for you donation ' + donorInfo.first_name + '!', // Subject line
-            text: 'Thank you for donating', // plaintext body
-            html: '<b>Thank you for donating</b>' // html body
-        },
-        smtpOptions: {
-            auth: {
-                user: senderAddress,
-                pass: senderPass
+    if(donorInfo.email) {
+        const emailConfig = {
+            emailContent: {
+                from: '"NAMI" <' + senderAddress + '>', // sender address
+                to: donorInfo.email, // list of receivers
+                subject: 'Thank you for you donation ' + donorInfo.first_name + '!', // Subject line
+                text: 'Thank you for donating', // plaintext body
+                html: '<b>Thank you for donating</b>' // html body
+            },
+            smtpOptions: {
+                auth: {
+                    user: senderAddress,
+                    pass: senderPass
+                }
             }
-        }
-    };
-    donationResponseHandler.publishMessage(emailConfig);
+        };
+        donationResponseHandler.publishMessage(emailConfig);
+    }
 };
 
 //Sends an email to an admin when a donation has been recieved
