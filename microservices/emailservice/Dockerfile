@@ -1,6 +1,6 @@
 FROM node:argon
 
-ENV NODE_ENV test
+ENV NODE_ENV development
 RUN mkdir -p /usr/app/opphack/microservices/emailservice
 WORKDIR /usr/app/opphack/microservices/emailservice
 COPY package.json /usr/app/opphack/microservices/emailservice/

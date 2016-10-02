@@ -16,21 +16,22 @@ const start = function () {
                 ch.assertQueue(amqpConfig.queue);
                 ch.consume(amqpConfig.queue, (msg) => {
                     const msgContents = JSON.parse(msg.content.toString());
+                    console.log('recieved');
                     try {
                         emailSender.sendEmail(msgContents, (err3, response) => {
                             if (err3 != null) {
                                 ch.ack(msg);
-                                publishToExchange(err3)
+                                publish(msg.replyTo, err3);
                             }
                             else {
                                 ch.ack(msg);
-                                publishToExchange(response);
+                                publish(msg.replyTo, response);
                             }
                         });
                     }
                     catch (e) {
                         ch.ack(msg);
-                        publishToExchange(e);
+                        publish(msg.replyTo, e);
                     }
                 });
                 console.log('listening for messages on ' + amqpConfig.queue + ' queue');
@@ -38,11 +39,11 @@ const start = function () {
             conn.createChannel(onOpen);
         };
 
-        const publishToExchange = function (msg) {
+        const publish = function (routingKey, msg) {
+            console.log('sent');
             conn.createChannel((err2, ch) => {
                 if (err2 != null) bail(err2);
-                ch.assertExchange(amqpConfig.exchange);
-                ch.publish(amqpConfig.exchange, '', new Buffer(JSON.stringify(msg)));
+                ch.publish('', routingKey, new Buffer(JSON.stringify(msg)));
             });
         };
 
