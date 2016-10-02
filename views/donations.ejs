@@ -4,6 +4,7 @@
     <%- include('header'); %>
     <title>NAMI-VOS| Donation</title>
     <link rel="stylesheet" href="stylesheets/bootstrap-select.min.css">
+    <!--<script type="text/javascript" src="javascripts/bootstrap-select.js.map"></script>-->
     <script type="text/javascript" src="javascripts/bootstrap-select.min.js"></script>
     <script type="text/javascript" src="javascripts/donations.js"></script>
   </head>
@@ -32,12 +33,14 @@
                   <div class="col-xs-6">
                     <label class="block-label">Type:</label>
                     <select class="selectpicker" name="type" id="type" required>
+                      <option value=>- Select One -</opton>
                       <!-- ajax populated -->
                     </select>
                   </div>
                   <div class="col-xs-6">
                     <label>Method:</label>
                     <select class="selectpicker" name="method" id="method" required>
+                      <option value=>- Select One -</opton>
                       <!-- ajax populated -->
                     </select>
                   </div>
@@ -46,7 +49,9 @@
                   <div class="col-xs-6">
                     <label>Donor:</label>
                     <select class="selectpicker" name="donor" id="donor" required>
+                      <option value=>- Select One -</opton>
                       <!-- ajax populated -->
+                      <option value=>New Donor</opton>
                     </select>
                   </div>
                   <div class="col-xs-6">

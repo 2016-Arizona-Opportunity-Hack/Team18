@@ -15,6 +15,7 @@ validator_tool.checkInput = function(input, type, regex) {
       }
     }
   }
+  console.log('failed to pass: '+input)
   return false;
 }
 
