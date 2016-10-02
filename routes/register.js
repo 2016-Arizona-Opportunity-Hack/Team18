@@ -98,7 +98,7 @@ router.get('/interests', function (req, res) {
 });
 
 router.post('/', function(req, res) {
-  if (checkInput(req.body.first_name,'string',name_re) && checkInput(req.body.last_name,'string',name_re) && checkInput(req.body.phone,'string',phone_re) && checkInput(req.body.email,'string',email_re) && checkInput(req.body.preference,'number',null) && checkInput(req.body.interest,'number',null) && captcha_response) {
+  if (checkInput(req.body.first_name,'string',name_re) && checkInput(req.body.last_name,'string',name_re) && checkInput(req.body.phone,'string',phone_re) && checkInput(req.body.email,'string',email_re) && checkInput(req.body.preference,'number',null) && checkInput(req.body.interest,'number',null) && req.body.captcha_response) {
     try {
       checkCaptcha(captcha_response, req.connection.remoteAddress, function(captcha_result) {
         if (captcha_result === true) {
