@@ -17,7 +17,7 @@ let router = express.Router();
 router.get('/interests', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     try {
-      pg_tool.query('SELECT * FROM nv.engagement_interest', [], function(error, rows) {
+      knex('nv.engagement_interest').asCallback((error, rows) => {
         let result = {
           'status': 200,
           'interests': rows
@@ -45,7 +45,7 @@ router.get('/interests', function(req, res) {
 router.get('/preferences', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     try {
-      pg_tool.query('SELECT * FROM nv.communication_preference', [], function(error, rows) {
+      knex('nv.communication_preference').asCallback((error, rows) => {
         let result = {
           'status': 200,
           'preferences': rows
@@ -170,10 +170,10 @@ router.post('/', function(req, res) {
           email: email,
           address: address,
           company: company,
-          type_id: type_id,
-          communication_preference_id: communication_preference_id,
+          type_id: type,
+          communication_preference_id: preference,
           last_contacted: last_contacted,
-          engagement_interest_id: engagement_interest_id,
+          engagement_interest_id: interest,
           comment: comment
         })).asCallback((error, rows) => {
           if (error) {
@@ -250,10 +250,10 @@ router.put('/', function(req, res) {
           email: email,
           address: address,
           company: company,
-          type_id: type_id,
-          communication_preference_id: communication_preference_id,
+          type_id: type,
+          communication_preference_id: preference,
           last_contacted: last_contacted,
-          engagement_interest_id: engagement_interest_id,
+          engagement_interest_id: interest,
           comment: comment
         })).asCallback((error, rows) => {
           if (error) {

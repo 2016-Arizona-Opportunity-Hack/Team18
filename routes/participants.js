@@ -2,7 +2,7 @@
 
 let app = require('../app');
 let express = require('express');
-let pg_tool = require('../bin/pg_tool');
+let knex = require('../bin/knex_tool').getKnex();
 let aes_tool = require('../bin/aes_tool');
 let bcrypt = require('bcrypt-nodejs');
 let redis_tool = require('../bin/redis_tool');
@@ -25,7 +25,7 @@ router.get('/', function(req, res) {
 router.get('/all', function(req, res) {
   if (checkInput(req.session.email, 'string', email_re)) {
     try {
-      pg_tool.query('SELECT * FROM nv.member WHERE type_id=2', [], function(error, rows) {
+      knex('nv.member').where(knex.raw('type_id = :type_id', {type_id: 2})).asCallback((error, rows) => {
         if (error) {
           let result = {
             'status': 500,
