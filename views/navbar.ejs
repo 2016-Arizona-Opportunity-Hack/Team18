@@ -1,1 +1,28 @@
-<!-- make a cool navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/">
+          <img class="img-responsive" alt="NAMI" src="/images/nami_image.png">
+        </a>
+    </div>
+    <div class="navbar-collapse">
+      <ul class="nav navbar-nav navbar-left">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Members <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/donors">Donors</a></li>
+            <li><a href="/participants">Participants</a></li>
+            <li><a href="/administrators">Administrators</a></li>
+          </ul>
+        </li>
+        <li><a href="/donations">Enter Donation</a></li>
+        <li><a href="/add_participant">Add Participant</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <p class="navbar-text">Hello, <%= name %>!</p>
+        <li class="divider-vertical"></li>
+        <li><a onclick="logout();" class="pointer">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
