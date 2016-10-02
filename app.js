@@ -12,6 +12,7 @@ require('./bin/knex_tool').start();
 let index = require('./routes/index');
 let member = require('./routes/member');
 let donation = require('./routes/donation');
+let participants = require('./routes/participants');
 
 let app = express();
 
@@ -28,6 +29,7 @@ app.use(session_tool);
 app.use('/', index);
 app.use('/member', member);
 app.use('/donation', donation);
+app.use('/participants', participants);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
