@@ -22,4 +22,42 @@ router.get('/', function(req, res) {
   }
 });
 
+router.get('/all', function(req, res) {
+  if (checkInput(req.session.email, 'string', email_re)) {
+    try {
+      pg_tool.query('SELECT * FROM nv.member WHERE type_id=1', [], function(error, rows) {
+        if (error) {
+          let result = {
+            'status': 500,
+            'message': 'Server Error'
+          }
+          res.send(result);
+        }
+        else {
+          let result = {
+            'status': 200,
+            'participants': rows
+          }
+          res.send(result);
+        }
+      });
+    }
+    catch (err) {
+      console.log(err);
+      let result = {
+        'status': 500,
+        'message': 'Server Error'
+      }
+      res.send(result);
+    }
+  }
+  else {
+    let result = {
+      'status': 401,
+      'message': 'Unauthorized Request'
+    }
+    res.send(result);
+  }
+});
+
 module.exports = router;
