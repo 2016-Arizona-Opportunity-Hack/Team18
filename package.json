@@ -18,7 +18,8 @@
     "morgan": "~1.7.0",
     "node-uuid": "^1.4.7",
     "pg": "^6.0.3",
-    "request": "^2.74.0"
+    "request": "^2.74.0",
+    "knex": "0.12.2"
   },
   "repository": {
     "type": "git",
