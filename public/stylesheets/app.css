@@ -2,3 +2,14 @@ body {
   background-color: #fcfcfc;
   color: #263238;
 }
+
+.wrong-input{
+  color: red;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+#login-img{
+  max-width:30%;
+  max-height: 30%;
+}
