@@ -5,7 +5,7 @@ function setup() {
   $(document).keypress(function(e){
     console.log(e)
     if (e.which == 13){
-        $("#login_button").click();
+        $("#login-button").click();
     }
   });
 };

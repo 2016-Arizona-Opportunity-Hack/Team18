@@ -1,43 +1,11 @@
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <a class="navbar-brand" href="/">
           <img class="img-responsive" alt="NAMI" src="/images/nami_image.png">
         </a>
     </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="navbar-collapse">
-      <!--
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-
-
-
-      <li role="separator" class="divider"></li>
-      <li><a href="#">Separated link</a></li>
-    -->
       <ul class="nav navbar-nav navbar-left">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Members <span class="caret"></span></a>
@@ -51,7 +19,7 @@
         <li><a href="/add_participant">Add Participant</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <p id="navbar_name" class="navbar-text">Hello, <%= name %>!</p>
+        <p class="navbar-text">Hello, <%= name %>!</p>
         <li class="divider-vertical"></li>
         <li><a onclick="logout();" class="pointer">Logout</a></li>
       </ul>
